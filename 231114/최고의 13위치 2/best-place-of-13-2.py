@@ -1,17 +1,29 @@
-n=int(input())
-arr = []
-for i in range(n):
-    temp = list(map(int, input().split()))
-    arr.append(temp)
+def max_coins(N, grid):
+    # 최대 동전 개수를 저장할 변수 초기화
+    max_coins = 0
 
-count = 1
+    # 격자 내 모든 위치에 대해 1*3 격자를 위치시키고 탐색
+    for i in range(N):
+        for j in range(N - 2):  # 1*3 격자를 놓을 수 있는 열의 시작점
+            # 첫 번째 1*3 격자에 포함된 동전 수를 계산
+            first = grid[i][j] + grid[i][j + 1] + grid[i][j + 2]
 
-for i in range(n):
-    for j in range(n-2):
-        for k in range(i+2,n):
-            for l in range(n-2):
-                count = max(count, \
-                arr[i][j] + arr[i][j+1] + arr[i][j+2] +\
-                arr[k][l] + arr[k][l+1] + arr[k][l+2])
+            # 나머지 위치에 두 번째 1*3 격자를 놓는 모든 경우를 탐색
+            for x in range(N):
+                for y in range(N - 2):
+                    # 겹치는 부분을 배제
+                    if x == i and (y in range(j - 2, j + 3)):
+                        continue
+                    
+                    # 두 번째 1*3 격자에 포함된 동전 수를 계산
+                    second = grid[x][y] + grid[x][y + 1] + grid[x][y + 2]
 
-print(count)
+                    # 최대 동전 수를 갱신
+                    max_coins = max(max_coins, first + second)
+    
+    return max_coins
+
+N = int(input())
+grid = [list(map(int, input().split())) for _ in range(N)]
+
+print(max_coins(N, grid))
