@@ -1,13 +1,13 @@
-s=input()
+lst = input()
 
-def answer(s):
-    cnt=[0]*26
+def ch(a):
+    b = a[0]
+    for i in a:
+        if i != b:
+            return False
+    return True
 
-    for c in s:
-        cnt[ord(c)-97] += 1
-        if cnt[ord(c)-97] == 2:
-            print("Yes")
-            return
-    
-    print("No")
-answer(s)
+if ch(lst) == True:
+    print('No')
+else:
+    print('Yes')
