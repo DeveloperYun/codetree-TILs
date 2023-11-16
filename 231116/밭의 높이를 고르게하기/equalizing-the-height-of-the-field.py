@@ -1,12 +1,22 @@
-import sys
-n, h, t = tuple(map(int,input().split()))
-arr = list(map(int,input().split()))
+def min_cost_to_equal_height(heights, target_height, target_count):
+    n = len(heights)
+    min_cost = float('inf')
 
-min_cnt = sys.maxsize
-for i in range(n-t):
-    cnt = 0
-    for j in range(i,i+t):
-        if arr[j] != h:
-            cnt = cnt + abs(h-arr[j])
-    min_cnt = min(min_cnt, cnt)
-print(min_cnt)
+    for i in range(n - target_count + 1):
+        current_heights = heights[i:i + target_count]
+        current_cost = 0
+
+        for h in current_heights:
+            current_cost += abs(target_height - h)
+
+        min_cost = min(min_cost, current_cost)
+
+    return min_cost
+
+# 입력 받기
+n, target_height, target_count = map(int, input().split())
+heights = list(map(int, input().split()))
+
+# 결과 출력
+result = min_cost_to_equal_height(heights, target_height, target_count)
+print(result)
