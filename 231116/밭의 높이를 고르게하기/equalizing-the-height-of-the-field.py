@@ -1,22 +1,13 @@
-def min_cost_to_equal_height(heights, target_height, target_count):
-    n = len(heights)
-    min_cost = float('inf')
+import sys
+n,h,t = map(int,input().split())
+height = list(map(int,input().split()))
+ans = sys.maxsize
 
-    for i in range(n - target_count + 1):
-        current_heights = heights[i:i + target_count]
-        current_cost = 0
+#최소 2번이상 4높이로 나오게 
+for i in range(n-t+1): 
+    cnt = 0
+    for j in range(i,i+t):
+        cnt += abs(height[j]-h)
+    ans = min(cnt,ans)
 
-        for h in current_heights:
-            current_cost += abs(target_height - h)
-
-        min_cost = min(min_cost, current_cost)
-
-    return min_cost
-
-# 입력 받기
-n, target_height, target_count = map(int, input().split())
-heights = list(map(int, input().split()))
-
-# 결과 출력
-result = min_cost_to_equal_height(heights, target_height, target_count)
-print(result)
+print(ans)
