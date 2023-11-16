@@ -9,7 +9,7 @@ for i in range(n):
 
 arr.sort()
 
-answer = -sys.maxsize #9..9
+answer = 0 #9..9
 a1,a2=-1,-1
 for i in range(n):
     for j in range(i+1,n):
