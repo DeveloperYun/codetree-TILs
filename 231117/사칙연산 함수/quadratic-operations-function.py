@@ -8,5 +8,7 @@ elif b=="-":
     print(a,"-",c,"=",a-c)
 elif b=="/":
     print(a,"/",c,"=",a//c)
-else:
+elif b=="*":
     print(a,"*",c,"=",a*c)
+else:
+    print("False")
