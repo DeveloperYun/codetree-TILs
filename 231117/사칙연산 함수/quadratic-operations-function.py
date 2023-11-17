@@ -7,6 +7,6 @@ if b=="+":
 elif b=="-":
     print(a,"-",c,"=",a-c)
 elif b=="/":
-    print(a,"/",c,"=",a/c)
+    print(a,"/",c,"=",a//c)
 else:
     print(a,"*",c,"=",a*c)
