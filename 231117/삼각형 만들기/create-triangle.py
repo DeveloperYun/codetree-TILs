@@ -24,4 +24,4 @@ for i in range(n):
             if temp > ans:
                 ans = temp
 
-print(int(ans)*2)
+print(round(ans)*2)
