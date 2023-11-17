@@ -7,19 +7,14 @@ for _ in range(n):
 answer=0
 
 for i in range(n):
+    count=[0]*1000
     for j in range(n):
         if i==j:
             continue
 
-        # (3,7) (5,9)
-        if arr[i][1] > arr[j][0]:
-            t = arr[j][1]-arr[i][0]
-        else:
-            s1=arr[i][1]-arr[i][0]
-            s2=arr[j][1]-arr[j][0]
-
-            t=s1+s2
-        if t>answer:
-            answer=t
+        x,y=arr[j]
+        for k in range(x,y):
+            count[k] = 1
+    answer = max(answer, sum(count))
 
 print(answer)
