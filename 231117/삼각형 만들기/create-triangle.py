@@ -1,3 +1,4 @@
+import math
 n=int(input())
 
 points=[]
@@ -24,4 +25,4 @@ for i in range(n):
             if temp > ans:
                 ans = temp
 
-print(round(ans)*2)
+print(math.ceil(ans)*2)
