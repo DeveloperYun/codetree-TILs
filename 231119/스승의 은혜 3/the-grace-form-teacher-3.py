@@ -1,29 +1,29 @@
-N, B = map(int, input().split())
-want = [
-    tuple(map(int, input().split()))
-    for _ in range(N)
-]
+import copy
+n,b=map(int,input().split())
+arr=[]
+for i in range(n):
+    p,s=map(int,input().split())
+    arr.append([p,s])
 
-# 정렬 기준?
-# x[0]//2 + x[1] or x[0]+x[1]
-want.sort(key=lambda x:(x[0]+x[1]))
+answer=0
 
-# 할인 쿠폰을 i번째 학생에게 쓰는 경우
-ans = -1
-for i in range(N):
-    money = B
-    cnt = 0
-    for j in range(N):
-        if j == i:
-            if money >= want[j][0] // 2 + want[j][1]:
-                money -= (want[j][0] // 2 + want[j][1])
-                cnt += 1
+#한명의 학생에게 선물 쿠폰 쓸 때
+for i in range(n):
+    temp = copy.deepcopy(arr)
+    temp[i][0] //= 2 #반값
 
-        else:
-            if money >= want[j][0] + want[j][1]:
-                money -= (want[j][0] + want[j][1])
-                cnt += 1
 
-    ans = max(ans, cnt)
+    temp.sort(key=lambda x:(x[0]+x[1]))
 
-print(ans)
+    student = 0
+    cnt=0
+
+    for j in range(n):
+        if cnt + temp[j][0] + temp[j][1] > b:
+            break
+
+        cnt += temp[j][0] + temp[j][1]
+        student += 1
+    
+    answer = max(answer,student)
+print(answer)
