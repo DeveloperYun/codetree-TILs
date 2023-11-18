@@ -6,7 +6,7 @@ for i in range(n):
 
 answer=[]
 for i in range(n):
-    for j in range(i+1,n):
+    for j in range(n):
         if arr[i] == arr[j]:
             if j-i <= k:
                 answer.append(arr[i])
