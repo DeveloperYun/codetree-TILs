@@ -9,7 +9,9 @@ answer=0
 
 #한명의 학생에게 선물 쿠폰 쓸 때
 for i in range(n):
-    temp = copy.deepcopy(arr)
+    temp = []
+    for x in range(n):
+        temp.append(arr[x])
     temp[i][0] //= 2 #반값
 
 
