@@ -5,8 +5,8 @@ for i in range(n):
     arr.append(t)
 
 answer=[]
-for i in range(n):
-    for j in range(n):
+for i in range(n-1):
+    for j in range(i+1,n):
         if arr[i] == arr[j]:
             if j-i <= k:
                 answer.append(arr[i])
