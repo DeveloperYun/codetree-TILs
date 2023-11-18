@@ -8,7 +8,7 @@ def count_strict_pairs(K, N, results):
                 strict = True
                 # 각 경기에 대해 불변의 순위를 확인
                 for k in range(K):
-                    if results[k][a - 1] <= results[k][b - 1]:
+                    if results[k][a - 1] >= results[k][b - 1]:
                         strict = False
                         break
                 if strict:
