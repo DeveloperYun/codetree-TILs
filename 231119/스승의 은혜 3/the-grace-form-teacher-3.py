@@ -13,9 +13,10 @@ for i in range(n):
     ]
     temp[i][0] /= 2 #반값
 
-    temp.sort()
+    temp.sort(key=lambda x:(x[0]+x[1]))
 
-    student, cnt=0,0
+    student = 0
+    cnt=0
 
     for j in range(n):
         if cnt + temp[j][0] + temp[j][1] > b:
