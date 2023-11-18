@@ -11,4 +11,7 @@ for i in range(n-1):
             if j-i <= k:
                 answer.append(arr[i])
 
-print(max(answer))
+if answer:
+    print(max(answer))
+else:
+    print(-1)
