@@ -1,12 +1,17 @@
-n=int(input())
-arr=list(map(int, input().split()))
-#k의 최대는 100
-k_max=0
-for k in range(1, 101):
-    cnt=0
-    for i in range(n):
-        for j in range(i, n):
-            if (arr[i]+arr[j])/2==k:
-                cnt+=1
-    k_max=max(k_max, cnt)
-print(k_max)
+n = int(input())
+
+arr = list(map(int, input().split()))
+
+min_val = min(arr)#3
+max_val = max(arr)#7
+ans = 0
+
+for k in range(min_val, max_val):
+    cnt = 0
+    for i in range(n - 1):
+        for j in range(i + 1, n):
+            if arr[i] + arr[j] == 2 * k:
+                cnt = cnt + 1
+    
+    ans = max(ans, cnt)
+print(ans)
