@@ -14,12 +14,14 @@ answer=0
 
 for i in range(1,4):
     # i번에 조약돌이 있다고 가정하면
+    temp = [0]*4
+    temp[i] = 1
     cnt=0
-    for j in range(n):
-        temp = copy.deepcopy(arr[j])
-        temp[0], temp[1] = temp[1], temp[0]
-        if temp[c] == i:
-            cnt += 1
+    for a,b,c in arr:
+        temp[a],temp[b]=temp[b],temp[a]
+
+        if temp[c]==1:
+            cnt+=1
     
     answer = max(answer,cnt)
 print(answer)
