@@ -1,4 +1,4 @@
-n = 29
+n=int(input())
 digits = []
 
 while True:
