@@ -1,15 +1,33 @@
-arr=[]
-for _ in range(3):
-    a=list(map(int,input().rstrip()))
-    arr.append(a)
+from sys import stdin
+base = [0 for _ in range(3)]
+for i in range(3):
+    base[i] = stdin.readline().strip()
+# print(base)
 
-for i in range(1,10):
-    for j in range(1,10):
-        
-        for k in range(3):
-            for a,b,c in arr[k]:
-                # 1 2 4
-                # 3 3 2
-                # 5 6 1
+cnt = set()
+for i in range(3):
+    check = set() #중복 제거
+    for j in range(3):
+        check.add(base[i][j])
+    if len(check) == 2: #2가지로만 구성시 가능
+        cnt.add(tuple(sorted(check)))
 
-                if i in a
+for j in range(3):
+    check = set()
+    for i in range(3):
+        check.add(base[i][j])
+    if len(check) == 2:
+        cnt.add(tuple(sorted(check)))
+
+check  = set()
+for i in range(3):
+    check.add(base[i][i])
+if len(check) == 2:
+        cnt.add(tuple(sorted(check)))
+
+check  = set()
+for i in range(3):
+    check.add(base[i][3-1-i])
+if len(check) == 2:
+        cnt.add(tuple(sorted(check)))
+print(len(cnt))
