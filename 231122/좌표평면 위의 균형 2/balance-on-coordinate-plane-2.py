@@ -7,8 +7,8 @@ for _ in range(n):
 ans=[]
 
 
-for i in range(101):
-    for j in range(101):
+for i in range(0,101,2):
+    for j in range(0,101,2):
         #x,y축에 평행한 각 선을 기준으로 4등분
         one,two,three,four=0,0,0,0
         for point in arr:
@@ -20,7 +20,7 @@ for i in range(101):
                 two += 1
             elif x>i and y>j:
                 three += 1
-            else:
+            elif 0<x<i and y>j:
                 four +=1
         s=[]
         s.append(one)
