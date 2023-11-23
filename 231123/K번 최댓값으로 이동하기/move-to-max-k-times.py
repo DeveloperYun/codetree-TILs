@@ -1,67 +1,119 @@
-from collections import deque
-#변수입력----------------------------------------------------------#
-N, K = tuple(map(int, input().split()))
-graph=[]
-for _ in range(N):
-    graph.append(list(map(int, input().split())))
-r,c=map(int,input().split())
-#초기상태----------------------------------------------------------#
-NO_EXIST=(-1,-1)
-curr_cell=(r-1,c-1)
-dx,dy=[0,-1,0,1],[-1,0,1,0]#좌상우하
-visited=[[False for _ in range(N)]for _ in range(N)]
-#함수선언----------------------------------------------------------#
-def in_range(x,y):
-    return 0<=x and x<N and 0<=y and y<N
-def can_go(x,y,max_n):
-    return in_range(x,y) and graph[x][y]<max_n and not visited[x][y]
-def reset_visited():
-    for i in range(N):
-        for j in range(N):
-            visited[i][j]=False
-def bfs():
-    q=deque()
-    x,y=curr_cell
-    max_num = graph[x][y]
-    q.append((x,y))
-    visited[x][y]=True
-    while q:
-        rx,ry=q.popleft()
-        for i in range(4):
-            nx,ny=rx+dx[i],ry+dy[i]
-            if can_go(nx,ny,max_num):
-                q.append((nx,ny))
-                visited[nx][ny]=True
-def need_update(best_pos,new_pos):
-    if best_pos==NO_EXIST:#딱 왔는데 초기값이면 그 위치로 갱신해야되니까
-        return True
-    best_x,best_y=best_pos
-    new_x,new_y=new_pos
-    return(graph[best_x][best_y], -best_x, -best_y)<(graph[new_x][new_y], -new_x, -new_y)
+import collections
 
+NOT_EXISTS = (-1, -1)
+
+n, k = tuple(map(int, input().split()))
+grid = [
+    list(map(int, input().split()))
+    for _ in range(n)
+]
+
+# 현재 위치
+r, c = tuple(map(int, input().split()))
+curr_cell = (r - 1, c - 1)
+
+bfs_q = collections.deque()
+visited = [
+    [0 for _ in range(n)]
+    for _ in range(n)
+]
+
+
+def in_range(x, y):
+    return 0 <= x and x < n and 0 <= y and y < n
+
+
+def can_go(x, y, target_num):
+    return in_range(x, y) and not visited[x][y] and grid[x][y] < target_num
+
+
+# visited 배열을 초기화 해줍니다.
+def initialize_visited():
+    for i in range(n):
+        for j in range(n):
+            visited[i][j] = False
+
+            
+def bfs():
+    dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
+
+    curr_x, curr_y = curr_cell
+    visited[curr_x][curr_y] = True
+    bfs_q.append(curr_cell)
+    
+    target_num = grid[curr_x][curr_y]
+    
+    # BFS 탐색을 수행합니다.
+    while bfs_q:
+        curr_x, curr_y = bfs_q.popleft()
+        
+        for dx, dy in zip(dxs, dys):
+            new_x, new_y = curr_x + dx, curr_y + dy
+            
+            if can_go(new_x, new_y, target_num):
+                bfs_q.append((new_x, new_y))
+                visited[new_x][new_y] = True
+            
+
+# best 위치를 새로운 위치로 바꿔줘야 하는지를 판단합니다.
+def need_update(best_pos, new_pos):
+    # 첫 도달 가능한 위치라면
+    # update가 필요합니다.
+    if best_pos == NOT_EXISTS:
+        return True
+    
+    best_x, best_y = best_pos
+    new_x, new_y = new_pos
+    
+    # 숫자, -행, -열 순으로 더 큰 곳이 골라져야 합니다.
+    if (grid[new_x][new_y], -new_x, -new_y) > (grid[best_x][best_y], -best_x, -best_y):
+        return True
+    else:
+        return False
+
+
+# 가장 우선순위가 높은 위치를 찾아
+# 위치를 이동합니다.
 def move():
     global curr_cell
-    reset_visited()
-    bfs()#bfs를 통해 현재 cell과 max_n으로부터 이동 가능한 모든 영역의 방문표시
-    best_pos=NO_EXIST
-    for i in range(N):
-        for j in range(N):
-            if not visited[i][j] or (i,j)==curr_cell:
-                #여기서 왜 NOT VISITED인지...?방문한 적이 있으면 건너뛰어야 하는거 아닐까
-                #아..방문한 적 없다는건 갈 수 없는 영역이라는거니까 당연히 넘겨야되는거구나
+    
+    # BFS 탐색을 위한 초기화 작업을 수행합니다.
+    initialize_visited()
+    
+    # Step1. BFS를 진행하여 갈 수 있는 모든 위치를 탐색합니다. 방문한 visited는 모두 갈 수 있는 위치.
+    bfs()
+    
+    # Step2. 
+    # 도달 할 수 있는 위치들 중
+    # 가장 우선순위가 높은 위치를 구합니다.
+    best_pos = NOT_EXISTS
+    for i in range(n):
+        for j in range(n):
+            # 도달이 불가능하거나 현재 위치는 건너뜁니다.
+            if not visited[i][j] or (i, j) == curr_cell:
                 continue
-            new_pos=(i,j)
-            if need_update(best_pos,new_pos):
-                best_pos=new_pos
-    if best_pos==NO_EXIST:
+            
+            new_pos = (i, j)
+            if need_update(best_pos, new_pos):
+                best_pos = new_pos
+
+    # Step3. 위치를 이동합니다.
+    
+    # 만약 움직일 위치가 없다면 종료합니다.
+    if best_pos == NOT_EXISTS:
         return False
+    # 움직일 위치가 있다면 이동합니다.
     else:
-        curr_cell=best_pos
+        curr_cell = best_pos
         return True
 
-for _ in range(K):
-    is_move=move()
-    if not is_move:
+# k번에 걸쳐 움직이는 것을 반복합니다.
+for _ in range(k):
+    is_moved = move()
+
+    # 움직이지 못했다면 바로 종료합니다.
+    if not is_moved:
         break
-final_x,final_y=curr_cell
-print(final_x+1,final_y+1)
+
+final_x, final_y = curr_cell
+print(final_x + 1, final_y + 1)
