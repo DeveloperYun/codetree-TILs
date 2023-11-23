@@ -1,55 +1,47 @@
 from collections import deque
-
-n,k=map(int,input().split())
-grid = [
-    list(map(int,input().split())) for _ in range(n)
-]
-start_x,start_y = map(int,input().split())
-
-visited = [
-    [False for _ in range(n)] for _ in range(n)
-]
-
-q = deque()
+n, k = map(int,input().split())
+graph = [list(map(int,input().split())) for _ in range(n)]
+visited = [[0 for _ in range(n)] for _ in range(n)]
+q = deque([])
+dxs, dys = [1,0,-1,0], [0,1,0,-1]
+r, c = map(int,input().split())
+r, c = r - 1, c - 1
+key = 0
 
 def in_range(x,y):
-    return x>=0 and x<n and y>=0 and y<n
+    return 0 <= x and x < n and 0 <= y and y < n
 
-def can_go(x,y,temp):
-    if not in_range(x,y):
-        return False
-
-    if visited[x][y] or grid[x][y]>temp:
-        return False
-
-    return True
-
+def can_go(x,y):
+    return in_range(x,y) and visited[x][y] == 0 and graph[x][y] < key
 
 def bfs():
+    global MAX
     while q:
-        x,y = q.popleft()
+        x, y = q.popleft()
+        for dx, dy in zip(dxs,dys):
+            ndx, ndy = x + dx, y + dy
+            if can_go(ndx, ndy):
+                q.append([ndx,ndy])
+                visited[ndx][ndy] = 1
+                MAX = max(MAX,graph[ndx][ndy])
 
-        dx = [0,0,-1,1]
-        dy = [-1,1,0,0]
-
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-
-            if can_go(nx,ny,grid[x][y]):
-                q.append((nx,ny))
-                visited[nx][ny] = True
-
-def find_max():
-    
-
+check_break = True
 for _ in range(k):
-    #k번 반복할 때 마다 visited 초기화
+    MAX = 0
+    check = False
+    q.append([r,c])
+    key = graph[r][c]
+    bfs()
     for i in range(n):
         for j in range(n):
-            visited[i][j] = False
+            if not check and graph[i][j] == MAX:
+                r, c = i, j
+                check = True
+    if not check:
+        print(r + 1,c + 1)
+        check_break = False
+        break
+    visited = [[0 for _ in range(n)] for _ in range(n)]
 
-    q.append((start_x-1,start_y-1))
-    visited[start_x-1][start_y-1] = True
-
-    bfs()
+if check_break:
+    print(r + 1,c + 1)
