@@ -58,7 +58,8 @@ def bfs():
             ny, nx = y + dy, x + dx
             if can_go(ny, nx):
                 q.append((ny, nx))
-                visited[y][x] = 1
+                visited[ny][nx] = 1
+
 
 def find_next(y, x):
     global temp
