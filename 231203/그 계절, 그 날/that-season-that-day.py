@@ -1,42 +1,36 @@
-def date(year, month, day):
-    if month >= 1 and month <= 12:
-        if month == 2:
-            if year % 4 == 0 and (year % 100 != 0 or year % 400 == 0):
-                if day >= 1 and day <= 29:
-                    return True
-                else:
-                    return False
-            else:
-                if day >= 1 and day <= 28:
-                    return True
-                else:
-                    return False
-                
-        elif month == 4 or month == 6 or month == 9 or month == 11:
-            if day >= 1 and day <= 30:
-                return True
-            else:
-                return False
-            
-        else:
-            if day >= 1 and day <= 31:
-                return True
-            else:
-                return False
+def is_leap_year(year):
+    if (year % 4 == 0 and year % 100 != 0) or (year % 400 == 0):
+        return True
     else:
         return False
 
-year, month, day = map(int, input().split())
-result = date(year, month, day)
+def get_season(year, month, day):
+    if month < 1 or month > 12 or day < 1 or day > 31:
+        return -1
+    
+    days_in_month = [0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+    
+    if is_leap_year(year):
+        days_in_month[2] = 29
+    
+    if day > days_in_month[month]:
+        return -1
 
-if result:
-    if month >= 12 or month <= 2:
-        print("Winter")
-    elif month >= 3 or month <= 5:
-        print("Spring")
-    elif month >= 6 or month <= 8:
-        print("Summer")
-    elif month >= 9 or month <= 11:
-        print("Fall")
+    if 3 <= month <= 5:
+        return "Spring"
+    elif 6 <= month <= 8:
+        return "Summer"
+    elif 9 <= month <= 11:
+        return "Fall"
+    else:
+        return "Winter"
+
+# 입력 받기
+year, month, day = map(int, input().split())
+
+# 계절 출력 또는 -1 출력
+result = get_season(year, month, day)
+if result == -1:
+    print(-1)
 else:
-    print("-1")
+    print(result)
