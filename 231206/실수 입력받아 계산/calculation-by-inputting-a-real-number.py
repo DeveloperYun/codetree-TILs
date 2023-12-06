@@ -1,3 +1,3 @@
 a=float(input())
 v=float(input())
-print(a+v)
+print(round(a+v,2))
