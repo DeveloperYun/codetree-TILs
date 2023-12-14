@@ -1,24 +1,20 @@
-def find_max_sum(n, m, sequence):
-    max_sum = 0
+# 변수 선언 및 입력:
+n, m = tuple(map(int, input().split()))
+arr = [0] + list(map(int, input().split()))
 
-    for start_position in range(1, n + 1):
-        current_position = start_position
-        moves_left = m
-        current_sum = 0
+ans = 0
+# 어느 지점에서 시작할지 전부 시도해 봅니다.
+# 모든 경우의 수에 대해 최대가 되도록 하는 수를 계산합니다.
+for i in range(1, n + 1):
+    # 시작점은 i입니다.
+    sum_element = 0
+    cur = i
 
-        while moves_left > 0:
-            current_sum += sequence[current_position - 1]
-            current_position = sequence[current_position - 1]
-            moves_left -= 1
+    # m번 움직임을 반복합니다.
+    for _ in range(m):
+        sum_element += arr[cur]
+        cur = arr[cur]
+    
+    ans = max(ans, sum_element)
 
-        max_sum = max(max_sum, current_sum)
-
-    return max_sum
-
-# 입력 받기
-n, m = map(int, input().split())
-sequence = list(map(int, input().split()))
-
-# 최대 합 계산 및 출력
-result = find_max_sum(n, m, sequence)
-print(result)
+print(ans)
