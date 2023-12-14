@@ -35,4 +35,8 @@ for col in range(n):
     flag = check(temp)
     if flag:
         answer += 1
-print(answer)
+
+if n==1:
+    print(2)
+else:
+    print(answer)
