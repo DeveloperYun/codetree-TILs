@@ -1,30 +1,32 @@
 n = int(input())
-strs = input()
+string = input()
 
-answer = 999999
+ans = 1
 
-# 길이가 i+1 짜리 부분 문자열은 얼마나 나오는지 저장하는 공간
-length = [0] * n
+# 1씩 늘려가면서 어느 길이까지 2번 등장하지는지 모두 시도해봅니다.
+for i in range(1, n):
+    # 모든 길이가 i인 부분 문자열에 대해 쌍을 짓고
+    # 둘이 완전히 똑같은지 확인합니다.
 
+    # twice : i 길이의 2회 이상 등장하는 부분 문자열이 존재하면 true
+    twice = False
 
-for i in range(n):
-    sentence = strs[i]
-    length[0] += 1
-    
-    # 현재 인덱스 기준으로 연속 부분 문자열을 찾는다
-    for j in range(i+1, n):
-        sentence += strs[j]
-        # 만약 해당 문자열이 2개 이상 있다면, length 인덱스에 +1 해준다
-        if strs.count(sentence) >= 2:
-            length[len(sentence)-1] += 1
-            continue
-        else:
-            break
+    for j in range(n - i + 1):
+        for k in range(j + 1, n - i + 1):
+            # issame : j부터 i길이의 부분 문자열과
+            # k부터 i길이의 부분 문자열이 완전히 같으면 true
+            issame = True
 
-for i in range(len(length)):
-    if length[i] == 0:
-        # 길이를 구해야되니까 인덱스 i에 1 더해주기
-        answer = i+1
+            for l in range(i):
+                if string[j + l] != string[k + l]:
+                    issame = False
+
+            if issame:
+                twice = True
+
+    if twice:
+        ans = i + 1
+    else:
         break
 
-print(answer)
+print(ans)
