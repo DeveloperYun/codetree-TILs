@@ -1,30 +1,30 @@
-n=int(input())
-st = input()
+n = int(input())
+strs = input()
 
-answer_cnt = 0
+answer = 999999
 
-# i x m v d k i x m v
-# i   j
-x=0
-member = []
-for i in range(n-1):
+# 길이가 i+1 짜리 부분 문자열은 얼마나 나오는지 저장하는 공간
+length = [0] * n
+
+
+for i in range(n):
+    sentence = strs[i]
+    length[0] += 1
+    
+    # 현재 인덱스 기준으로 연속 부분 문자열을 찾는다
     for j in range(i+1, n):
-        temp = []
-        for k in range(i,j+1):
-            temp.append(st[k])
-        test = ''.join(temp)
-        cnt = st.count(test) #test가 문자열에 몇 개 있는지 확인 
-        
-        if cnt >= answer_cnt:
-            answer_cnt = cnt
-            t=len(test)
-            member.append((len(test),answer_cnt))
+        sentence += strs[j]
+        # 만약 해당 문자열이 2개 이상 있다면, length 인덱스에 +1 해준다
+        if strs.count(sentence) >= 2:
+            length[len(sentence)-1] += 1
+            continue
+        else:
+            break
 
-member.sort(key = lambda x:x[1], reverse=True)
-k = member[0][1] #2
-answer=0
-for i in member:
-    #i = (2,2)
-    if i[1] == k:
-        answer = max(answer,i[0])
-print(answer+1)
+for i in range(len(length)):
+    if length[i] == 0:
+        # 길이를 구해야되니까 인덱스 i에 1 더해주기
+        answer = i+1
+        break
+
+print(answer)
