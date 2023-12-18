@@ -4,7 +4,7 @@ arr = list(map(int,input().split()))
 
 def is_possible(a):
     available = []
-    # a = 4
+    # a = 84
     for i, elem in enumerate(arr):
         if elem <= a:
             available.append(i)
@@ -19,11 +19,8 @@ def is_possible(a):
 
 answer=9999999
 
-for a in range(max(arr[0],arr[-1]), n+1):
+for a in range(max(arr[0],arr[-1]), 101):
     if is_possible(a):
         answer = min(answer,a)
 
-if k==1:
-    print(max(arr))
-else:
-    print(answer)
+print(answer)
