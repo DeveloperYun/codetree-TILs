@@ -23,4 +23,7 @@ for a in range(max(arr[0],arr[-1]), n+1):
     if is_possible(a):
         answer = min(answer,a)
 
-print(answer)
+if k==1:
+    print(max(arr))
+else:
+    print(answer)
