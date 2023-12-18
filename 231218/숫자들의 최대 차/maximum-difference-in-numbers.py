@@ -8,21 +8,18 @@ for i in range(n):
 
 answer = []
 
-data=[]
 for i in range(1,n+1):#1~5
     temp = list(combinations(arr,i))
-    data.append(temp)
-
-for d in data:
-    # d = [(1, 6), (1, 4), (1, 3), (1, 1), (6, 4), (6, 3), (6, 1), (4, 3), (4, 1), (3, 1)]
-    for i in d:
-    
-        max_t = max(i)
-        min_t = min(i)
+    # temp = [(1, 6, 4, 3), (1, 6, 4, 1), (1, 6, 3, 1), (1, 4, 3, 1), (6, 4, 3, 1)]
+    for d in temp:
+        # d = (1,6,4,3)
+        max_t = max(d)
+        min_t = min(d) 
 
         temp = max_t-min_t
 
         if temp <= k:
-            answer.append(len(i))
+            answer.append(len(d))
+            
 
 print(max(answer))
