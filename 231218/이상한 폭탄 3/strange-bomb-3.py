@@ -23,7 +23,7 @@ for i in range(n-k):
 
 unwrapped_list = [item[0] for item in answer]
 unwrapped_list.sort(key=lambda x:x[1], reverse=True)
-if unwrapped_list[0][0]==1:
+if unwrapped_list[0][1]==1:
     print(0)
 else:
     print(unwrapped_list[0][0])
