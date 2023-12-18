@@ -19,7 +19,7 @@ def is_possible(a):
 
 answer=9999999
 
-for a in range(max(arr[0],arr[-1]), n):
+for a in range(max(arr[0],arr[-1]), n+1):
     if is_possible(a):
         answer = min(answer,a)
 
