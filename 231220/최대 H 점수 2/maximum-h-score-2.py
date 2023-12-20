@@ -1,25 +1,26 @@
-def max_h_score(N, L, numbers):
-    numbers.sort()
+n, L = tuple(map(int, input().split()))
+a = list(map(int, input().split()))
+    
+# 모든 답을 일일히 가정해 봅니다.
+ans = 0
+for i in range(1, n + 1):
+    # 정답이 i일 때 가능한지 판단합니다.
 
-    for i in range(L):
-        if i < N - 1 and numbers[i] == numbers[i + 1]:
-            numbers[i] += 1
-            numbers.sort()
+    # i - 1인 값은 최대 l개까지 i로 올릴 수 있습니다.
+    # cnt : i이상인 숫자의 개수(i - 1인 숫자는 l개까지 카운트)
+    # cntl : 지금까지 1 증가시킨 숫자의 개수
+    cnt = 0
+    cntl = 0
 
-    h_score = 0
-    for h in range(1, N + 2):
-        count = sum(1 for num in numbers if num >= h)
-        if count >= h:
-            h_score = h
+    for j in range(n):
+        if a[j] >= i:
+            cnt += 1
+        elif a[j] == i - 1:
+            if cntl < L:
+                cntl += 1
+                cnt += 1
 
-    return h_score
+    if cnt >= i:
+        ans = i
 
-# 입력 처리
-N, L = map(int, input().split())
-numbers = list(map(int, input().split()))
-
-# 최대 H 점수 계산
-result = max_h_score(N, L, numbers)
-
-# 결과 출력
-print(result)
+print(ans)
