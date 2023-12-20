@@ -13,22 +13,21 @@ for idx,val in enumerate(arr):
 
 def get_h(array):
     cnt = 0
-    #array = [1,100,3,3]
+    #array = [2,3,5]
     for i in array:
         h = 0
         for j in array:
             if j >= i:
                 h+=1
-        
-        if i==h:
-            cnt = max(cnt, h)
+        if h>=i:
+            cnt = max(cnt, i)
     
     return cnt
 
 answer = 0
 #l=0인 경우는 예외처리한다.
 if l==0:
-    answer = max(answer,get_h(arr))
+    answer=max(answer,get_h(arr))
     print(answer)
 else:
     temp=list(combinations(data,l))
