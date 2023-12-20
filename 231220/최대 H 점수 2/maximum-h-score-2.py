@@ -1,46 +1,25 @@
-from itertools import combinations
-import copy
+def max_h_score(N, L, numbers):
+    numbers.sort()
 
-n,l = map(int,input().split()) 
-arr=list(map(int,input().split()))
-data = []
-'''
-L만큼 nCl 을 통해서 1씩 올릴 원소를 고르는 모든 경우의
-수를 temp에 담아서 최대 H 값을 갱신한다.
-'''
-for idx,val in enumerate(arr):
-    data.append((idx,val))
+    for i in range(L):
+        if i < N - 1 and numbers[i] == numbers[i + 1]:
+            numbers[i] += 1
+            numbers.sort()
 
-def get_h(array):
-    cnt = 0
-    #array = [2,3,5]
-    for i in array:
-        h = 0
-        for j in array:
-            if j >= i:
-                h+=1
-        if h>=i:
-            cnt = max(cnt, i)
-    
-    return cnt
+    h_score = 0
+    for h in range(1, N + 2):
+        count = sum(1 for num in numbers if num >= h)
+        if count >= h:
+            h_score = h
 
-answer = 0
-#l=0인 경우는 예외처리한다.
-if l==0:
-    answer=max(answer,get_h(arr))
-    print(answer)
-else:
-    temp=list(combinations(data,l))
-    for d in temp:
-        #d = ((0, 1), (1, 100))
+    return h_score
 
-        temp = copy.deepcopy(arr)
-        for i in d:
-            #i = (0,1)
-            #arr의 i[0] 번째 값을 1 더해준다.
-            
-            temp[i[0]] = temp[i[0]] + 1
-        
-        #이제 temp에 대해서 h값 구하면 된다.
-        answer = max(answer,get_h(temp))
-    print(answer)
+# 입력 처리
+N, L = map(int, input().split())
+numbers = list(map(int, input().split()))
+
+# 최대 H 점수 계산
+result = max_h_score(N, L, numbers)
+
+# 결과 출력
+print(result)
