@@ -27,18 +27,21 @@ def get_h(array):
 
 answer = 0
 #l=0인 경우는 예외처리한다.
+if l==0:
+    answer = max(answer,get_h(arr))
+    print(answer)
+else:
+    temp=list(combinations(data,l))
+    for d in temp:
+        #d = ((0, 1), (1, 100))
 
-temp=list(combinations(data,l))
-for d in temp:
-    #d = ((0, 1), (1, 100))
-
-    temp = copy.deepcopy(arr)
-    for i in d:
-        #i = (0,1)
-        #arr의 i[0] 번째 값을 1 더해준다.
+        temp = copy.deepcopy(arr)
+        for i in d:
+            #i = (0,1)
+            #arr의 i[0] 번째 값을 1 더해준다.
+            
+            temp[i[0]] = temp[i[0]] + 1
         
-        temp[i[0]] = temp[i[0]] + 1
-    
-    #이제 temp에 대해서 h값 구하면 된다.
-    answer = max(answer,get_h(temp))
-print(answer)
+        #이제 temp에 대해서 h값 구하면 된다.
+        answer = max(answer,get_h(temp))
+    print(answer)
