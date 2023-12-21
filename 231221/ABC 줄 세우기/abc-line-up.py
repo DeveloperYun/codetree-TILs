@@ -8,9 +8,7 @@ for i in range(n):
 
 #case1) 처음부터 모두 정렬된 상태
 temp = copy.deepcopy(arr)
-if arr == temp:
-    print("0")
-    sys.exit(0)
+
 #arr : 65 68 66 67
 
 sorted_arr = sorted(temp)
