@@ -21,6 +21,9 @@ for i in range(n):
 def subtract_lists(a, b):
     return [item for item in a if item not in b]
 
-r = subtract_lists(member,exp)
-for i in r:
-    print(i,end=" ")
+if data[p-1][1]==0:
+    print(" ")
+else:
+    r = subtract_lists(member,exp)
+    for i in r:
+        print(i,end=" ")
