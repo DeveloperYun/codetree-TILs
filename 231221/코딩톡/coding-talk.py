@@ -25,7 +25,7 @@ n, m, p = map(int, input().split())
 messages = [input().split() for _ in range(m)]
 
 # 함수 호출 및 결과 출력
-if messages[p-1][1] == 0:
+if messages[p-1][1] == '0':
     print(" ")
 else:
     unread_programmers(n, m, p, messages)
