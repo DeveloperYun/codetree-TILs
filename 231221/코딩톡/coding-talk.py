@@ -1,29 +1,28 @@
-n,m,p=map(int,input().split())
+def unread_programmers(n, m, p, messages):
+    # 모든 프로그래머들을 나타내는 집합을 생성
+    all_programmers = set(chr(ord('A') + i) for i in range(n))
+    
+    # 메세지를 확인한 프로그래머들을 나타내는 집합
+    read_programmers = set()
 
-data=[]
-member=[]
-for _ in range(m): #m=메시지의 개수
-    c, u = map(str,input().split()) #사람C가 올린 메세지, 아직 메시지를 읽지 않은 사람 수 U
-    u = int(u)
-    data.append((c,u))
+    # p번째 메세지 이전의 메세지를 확인하며 읽은 프로그래머들을 업데이트
+    for i in range(p - 1):
+        read_programmers.update(messages[i][0])
 
-answer=n
-exp=[]
-exp.append(data[p-1][0])
-for i in range(p,n):
-    if data[i][0] not in exp:
-        exp.append(data[i][0])
+    # p번째 메세지 이후에 메세지를 보낸 프로그래머들을 읽은 프로그래머들에 추가
+    for i in range(p - 1, m):
+        read_programmers.update(messages[i][0])
 
-for i in range(n):
-    mem = chr(65+i)
-    member.append(mem)
+    # 읽지 않은 프로그래머들을 찾아낸다
+    unread_programmers = all_programmers - read_programmers
 
-def subtract_lists(a, b):
-    return [item for item in a if item not in b]
+    # 결과를 사전순으로 정렬하여 출력
+    result = sorted(list(unread_programmers))
+    print(" ".join(result))
 
-if data[p-1][1]==0:
-    print(" ")
-else:
-    r = subtract_lists(member,exp)
-    for i in r:
-        print(i,end=" ")
+# 입력 예제
+n, m, p = map(int, input().split())
+messages = [input().split() for _ in range(m)]
+
+# 함수 호출 및 결과 출력
+unread_programmers(n, m, p, messages)
