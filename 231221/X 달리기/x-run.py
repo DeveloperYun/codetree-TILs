@@ -1,21 +1,21 @@
-n = int(input())
+def shortest_time_to_destination(X):
+    time = 0
+    position = 0
+    speed = 1
 
-dist = 0
-time = 0
-speed = 0
+    while position < X:
+        time += 1
+        position += speed
+        if position >= X:
+            break
+        time += 1
+        position += speed
+        speed += 1
 
-# 중간 지점까지 속도 상승
-for i in range(1, n+1):
-    dist += i
-    time += 1
-    if dist >= n // 2:
-        speed = i
-        break
+    return time
 
-while dist < n:
-    if (speed * (speed+1))/2 > n - dist:
-        speed -= 1
-    dist += speed
-    time += 1
+# 입력 받기
+X = int(input())
 
-print(time)
+# 결과 출력
+print(shortest_time_to_destination(X))
