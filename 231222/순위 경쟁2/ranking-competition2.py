@@ -1,31 +1,34 @@
-def count_hall_of_fame_changes(n, changes):
-    hall_of_fame_changes = 0
-    scores = {'A': 0, 'B': 0}
-    hall_of_fame = set()
+n=int(input())
+data=[]
+for _ in range(n):
+    c,s=map(str,input().split())
+    s=int(s)
+    data.append((c,s))
 
-    for i in range(n):
-        player, score_change = changes[i]
-        scores[player] += score_change
+answer=0
+suma=0
+sumb=0
 
-        max_score = max(scores.values())
+state = []
 
-        new_hall_of_fame = {player for player, score in scores.items() if score == max_score}
+for c, s in data:
+    if c=="A":
+        suma += s
+    elif c=="B":
+        sumb += s
 
-        if new_hall_of_fame != hall_of_fame:
-            hall_of_fame_changes += 1
-            hall_of_fame = new_hall_of_fame
+    if sumb > suma:
+        state.append('B')
+    elif suma==sumb:
+        state.append(['A','B'])
+    else:
+        state.append('A')
 
-    return hall_of_fame_changes
+for i in range(1,len(state)):
+    if state[i] != state[i-1]:
+        answer += 1
 
-
-# 입력 받기
-n = int(input())
-changes = [input().split() for _ in range(n)]
-changes = [(player, int(score)) for player, score in changes]
-
-# 결과 출력
 if n==1:
-    print(0)
+    print(0):
 else:
-    result = count_hall_of_fame_changes(n, changes)
-    print(result)
+    print(answer+1)
