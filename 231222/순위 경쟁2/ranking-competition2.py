@@ -30,5 +30,8 @@ for i in range(1,len(state)):
 
 if n==1:
     print(0)
+elif n==2:
+    if state[1] == state[0]:
+        print(0)
 else:
     print(answer+1)
