@@ -24,5 +24,8 @@ changes = [input().split() for _ in range(n)]
 changes = [(player, int(score)) for player, score in changes]
 
 # 결과 출력
-result = count_hall_of_fame_changes(n, changes)
-print(result)
+if n==1:
+    print(0)
+else:
+    result = count_hall_of_fame_changes(n, changes)
+    print(result)
