@@ -57,5 +57,8 @@ for i in range(n):
             #case3 : 셋 중 하나가 양수, 둘이 음수
             elif classify_numbers(arr[i],arr[j],arr[k]):
                 answer = max(answer,arr[i]*arr[j]*arr[k])
+            #case4 : 셋 다 음수
+            elif arr[i] < 0 and arr[j] < 0 and arr[k] < 0:
+                answer = min(answer,arr[i]*arr[j]*arr[k])
 
 print(answer)
