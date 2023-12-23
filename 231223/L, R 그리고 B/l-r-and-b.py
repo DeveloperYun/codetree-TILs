@@ -24,6 +24,9 @@ if lpos[0][1] == rpos[0][1] == bpos[0][1]:
         answer += 1
         answer += abs(lpos[0][0] - bpos[0][0])
         print(answer)
+    else:
+        answer += abs(lpos[0][0] - bpos[0][0])
+        print(answer-1)
 elif lpos[0][0] == rpos[0][0] == bpos[0][0]:
     answer += 1
     answer += abs(lpos[0][1] - bpos[0][1])
