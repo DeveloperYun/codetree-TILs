@@ -15,4 +15,10 @@ def diff(m,d):
 gap = diff(m2,d2) - diff(m1,d1)
 
 day_of_week = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
-print(gap//7+1)
+
+if gap<7:
+    idx=day_of_week.index(a)
+    if idx < gap:
+        print(idx)
+else:
+    print(gap//7+1)
