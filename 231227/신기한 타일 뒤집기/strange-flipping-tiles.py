@@ -8,7 +8,7 @@ for _ in range(n):
     x=int(x)
 
     if c=="L":
-        for i in range(cur,cur-x,-1):
+        for i in range(cur-1,cur-x-1,-1):
             arr[i] = "white"
         
         cur -= x
@@ -17,7 +17,5 @@ for _ in range(n):
             arr[i] = "black"
         
         cur += x
-    
-    
 
-print(arr.count("white"),arr.count("black")-1)
+print(arr.count("white"),arr.count("black"))
