@@ -1,41 +1,23 @@
-MAX_K = 100000
-# 변수 선언 및 입력:
-n = int(input())
-a = [0] * (2 * MAX_K + 1)
-cnt_b = [0] * (2 * MAX_K + 1)
-cnt_w = [0] * (2 * MAX_K + 1)
-b, w = 0, 0
+n=int(input())
+arr=[0]*2000001
 
-cur = MAX_K
+w,b=0,0
+cur = 100000
 for _ in range(n):
-    x, c = tuple(input().split())
-    x = int(x)
+    x,c=tuple(input().split())
+    x=int(x)
 
-    if c == 'L':
-        # x칸 왼쪽으로 칠합니다.
-        while x > 0:
-            a[cur] = 1
-            cnt_w[cur] += 1
-            x -= 1
-
-            if x: 
-                cur -= 1
+    if c=="L":
+        for i in range(cur,cur-x,-1):
+            arr[i] = "white"
+        
+        cur -= x
     else:
-        # x칸 오른쪽으로 칠합니다.
-        while x > 0:
-            a[cur] = 2
-            cnt_b[cur] += 1
-            x -= 1
+        for i in range(cur,cur+x):
+            arr[i] = "black"
+        
+        cur += x
+    
+    
 
-            if x: 
-                cur += 1
-
-for i in range(2 * MAX_K + 1):
-    # 그렇지 않으면 현재 칠해진 색깔이 곧 타일의 색깔입니다.
-    if a[i] == 1: 
-        w += 1
-    elif a[i] == 2: 
-        b += 1
-
-# 정답을 출력합니다.
-print(w, b)
+print(arr.count("white"),arr.count("black")-1)
