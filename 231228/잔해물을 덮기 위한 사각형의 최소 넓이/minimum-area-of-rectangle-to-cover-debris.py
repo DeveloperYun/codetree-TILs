@@ -32,6 +32,8 @@ elif a2 <= x1 <= x2 and y1 <= b1 <= y2 <= b2:
     answer = abs(x2-x1)*abs(b1-y1)
 elif a1 <= x1 <= a2 <= x2 and y1 <= b1 <= y2 <= b2:
     answer = abs(x2-x1)*abs(y2-y1)
+elif a1 <= x1 <= a2 <= x2 and b1 <= y1 <= y2 <= b2:
+    answer = abs(x2-a2) * abs(y2-y1)
 else:
     answer = abs(x2-x1)*abs(y2-y1)
 
