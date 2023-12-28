@@ -18,7 +18,7 @@ checked = [
 ]
 answer = 0
 
-if a2 <= x2 <= x1 <= a1 and b1 <= y1 <= y2 <= b2:
+if a1 <= x2 <= a2 and b1 <= y2 <= b2:
     answer = 0
 elif a2 <=x1 and y2 >= b1:
     answer = abs(x1-x2)*abs(y2-y1)
