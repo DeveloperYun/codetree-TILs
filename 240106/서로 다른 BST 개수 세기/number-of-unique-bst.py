@@ -1,7 +1,7 @@
 n = int(input())
 
 def solution(n):
-    dp = [0 for _ in range(n+1)] // 문제 발생 지점
+    dp = [0 for _ in range(n+1)]
     dp[0] = 1
 
     for i in range(1, n+1):
