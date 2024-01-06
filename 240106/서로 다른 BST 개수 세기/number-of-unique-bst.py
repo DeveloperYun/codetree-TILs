@@ -1,13 +1,12 @@
 n = int(input())
 
-def solution(n):
-    dp = [0 for _ in range(n+1)]
-    dp[0] = 1
+d = [0]*(n+1)
+d[0], d[1] = 1, 1
 
-    for i in range(1, n+1):
-        for j in range(0, i):
-            dp[i] += dp[j] * dp[i-j-1]
-    
-    return dp[n]
+for i in range(2, n+1):
+    summ = 0
+    for j in range(n+1):
+        summ += d[j] * d[i-j-1]
+    d[i] = summ
 
-print(solution(n))
+print(d[n])
