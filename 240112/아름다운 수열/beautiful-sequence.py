@@ -21,6 +21,6 @@ for i in range(n-m+1):
             cnt += 1
             answer.append(i+1)
 
-print(cnt)
+print(len(answer))
 for i in range(cnt):
     print(answer[i])
