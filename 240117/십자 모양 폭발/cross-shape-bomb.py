@@ -31,9 +31,12 @@ def bomb(center_x,center_y):
     #폭탄이 터진 이후의 결과를 temp에 저장 (중력 적용)
     #열을 기준으로 shift 해준다고 생각한다. 
     for j in range(n):
+        #각 열별로, 끝 행에서부터 첫 행까지 탐색하기 위한 것.
         next_row = n-1
         for i in range(n-1,-1,-1):#3,2,1,0
-            if grid[i][j]:
+            if grid[i][j]!=0:
+                #열 별로 진행하니까 열을 의미하는 j는 고정. 
+                #변하는건 오직 행(next_row)이다. 
                 temp[next_row][j] = grid[i][j]
                 next_row-=1
 
