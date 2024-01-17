@@ -29,7 +29,7 @@ def simulation():
                 answer.append(max_num)
                 curr_x,curr_y=next_x,next_y
                 is_done = False
-                break
+                
 
         if is_done:
             break
