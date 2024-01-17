@@ -9,7 +9,7 @@ def in_range(x,y):
 curr_x, curr_y = r-1,c-1
 answer=[]
 answer.append(grid[curr_x][curr_y])
-
+is_done=True
 #시작좌표에서 사방탐색을 진행한다.
 def simulation():
     global curr_x,curr_y
@@ -30,8 +30,10 @@ def simulation():
                 curr_x,curr_y=next_x,next_y
                 is_done = False
                 break
+
         if is_done:
             break
+
         is_done = True
 
 simulation()
