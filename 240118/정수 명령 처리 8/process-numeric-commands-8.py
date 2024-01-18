@@ -105,22 +105,28 @@ class DoublyLinkedList:
         else:
             return self.tail.data
 
-n=int(input())
 
-
-l = DoublyLinkedList()   # 정수를 관리할 list를 선언합니다. => 빈 연결리스트
+# 변수 선언 및 입력:
+n = int(input())
+l = DoublyLinkedList()
 
 for _ in range(n):
-    a,b=map(str, input().split())
-    b=int(b)
-
-    if a=="push_back":
-        print(l.push_back(b))
-    elif a=="push_front":
-        l.push_front(b)
-    elif a=="pop_front":
-        l.pop_front()
-    elif a=="pop_back":
-        l.pop_back()
-    elif a=="size":
-        prin
+    command = input()
+    if command.startswith("push_front"):
+        x = int(command.split()[1])
+        l.push_front(x)
+    elif command.startswith("push_back"):
+        x = int(command.split()[1])
+        l.push_back(x)
+    elif command == "pop_front":
+        print(l.pop_front())
+    elif command == "pop_back":
+        print(l.pop_back())
+    elif command == "size":
+        print(l.size())
+    elif command == "empty":
+        print(1 if l.empty() else 0)
+    elif command == "front":
+        print(l.front())
+    else:
+        print(l.back())
