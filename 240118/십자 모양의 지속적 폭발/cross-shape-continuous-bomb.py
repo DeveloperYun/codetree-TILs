@@ -1,64 +1,78 @@
-n, m = map(int, input().split())
+OUT_OF_GRID = -1
 
+# 변수 선언 및 입력:
+n, m = tuple(map(int, input().split()))
 grid = [
     list(map(int, input().split()))
-    for i in range(n)
+    for _ in range(n)
+]
+next_grid = [
+    [0 for _ in range(n)]
+    for _ in range(n)
 ]
 
-bomb_list = [
-    int(input()) - 1
-    for _ in range(m)
-]
 
-d_rows = [-1, 0, 1, 0]
-d_cols = [0, 1, 0, -1]
+def in_bomb_range(x, y, center_x, center_y, bomb_range):
+    return (x == center_x or y == center_y) and \
+           abs(x - center_x) + abs(y - center_y) < bomb_range
 
-def drop():
-    for col in range(n):
-        temp = []
-        for i in range(n-1, -1, -1):
-            num = grid[i][col]
-            if num:
-                temp.insert(0, num)
-        while len(temp) < n:
-            temp.insert(0, 0)
-        
-        for i in range(n):
-            grid[i][col] = temp[i]
 
-def in_range(row, col):
-    if row < 0 or n <= row:
-        return False
-    if col < 0 or n <= col:
-        return False
-    return True
+def bomb(center_x, center_y):
+    # Step1. next_grid 값을 0으로 초기화합니다.
+    for i in range(n):
+        for j in range(n):
+            next_grid[i][j] = 0
+    
+    # Step2. 폭탄이 터질 위치는 0으로 채워줍니다.
+    bomb_range = grid[center_x][center_y]
+    
+    for i in range(n):
+        for j in range(n):
+            #폭발 범위에 있는 영역을 0으로 표시한다. 
+            if in_bomb_range(i, j, center_x, center_y, bomb_range):
+                grid[i][j] = 0
 
-def bomb(row, col):
-    l = grid[row][col]
-    grid[row][col] = 0
-    for d_row, d_col in zip(d_rows, d_cols):
-        t_row = row
-        t_col = col
-        for _ in range(l - 1):
-            n_row = t_row + d_row
-            n_col = t_col + d_col
-
-            if not in_range(n_row, n_col):
-                break
+    # Step3. 폭탄이 터진 이후의 결과를 next_grid에 저장합니다.
+    for j in range(n):
+        next_row = n - 1 #끝 행에서부터 채운다 
+        #끝 행에서부터 첫 행으로..아래에서 위로 스캔하면서
+        #0이 아니라면 next_grid에 옮겨담는 것이다.
+        for i in range(n - 1, -1, -1):
             
-            grid[n_row][n_col] = 0
+            if grid[i][j]!=0: #0이 아니라면 
+                next_grid[next_row][j] = grid[i][j]
+                next_row -= 1
+                
+                
+    # Step4. grid로 다시 값을 옮겨줍니다.
+    for i in range(n):
+        for j in range(n):
+            grid[i][j] = next_grid[i][j]
 
-            t_row = n_row
-            t_col = n_col
-    drop()
 
-
-for col in bomb_list:
+# 해당 col 열에 폭탄이 터질 위치를 구합니다.
+# 없다면 OUT_OF_GRID를 반환합니다.
+def get_bomb_row(col):
     for row in range(n):
-        if grid[row][col]:
-            bomb(row, col);
-            break;
+        if grid[row][col] != 0:
+            return row
+    
+    return OUT_OF_GRID
 
+        
+# m번에 걸쳐 폭탄이 터집니다.
+for _ in range(m):
+    bomb_col = int(input()) - 1
 
-for row in range(n):
-    print(" ".join(map(str, grid[row])))
+    # 폭탄이 터지게 될 위치를 구합니다.
+    bomb_row = get_bomb_row(bomb_col)
+
+    if bomb_row == OUT_OF_GRID:
+        continue
+
+    bomb(bomb_row, bomb_col)
+
+for i in range(n):
+    for j in range(n):
+        print(grid[i][j], end=" ")
+    print()
