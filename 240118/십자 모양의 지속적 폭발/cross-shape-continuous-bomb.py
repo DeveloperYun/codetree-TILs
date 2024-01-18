@@ -1,66 +1,64 @@
-n,m=map(int,input().split())
-grid=[
-    list(map(int,input().split()))
-    for _ in range(n)
+n, m = map(int, input().split())
+
+grid = [
+    list(map(int, input().split()))
+    for i in range(n)
 ]
-next_grid = [
-    [0 for _ in range(n)]
-    for _ in range(n)
+
+bomb_list = [
+    int(input()) - 1
+    for _ in range(m)
 ]
-columns = []
-for _ in range(m):
-    x=int(input())
-    columns.append(x)
 
-def in_bomb_range(x,y,center_x,center_y,bomb_range):
-    #같은 행 혹은 같은 열에 속해있어야하고 and 폭탄범위 안에있어야한다.
-    if (x==center_x or y==center_y) and abs(x-center_x) + abs(y-center_y) < bomb_range:
-        return True
+d_rows = [-1, 0, 1, 0]
+d_cols = [0, 1, 0, -1]
 
-    return False
+def drop():
+    for col in range(n):
+        temp = []
+        for i in range(n-1, -1, -1):
+            num = grid[i][col]
+            if num:
+                temp.insert(0, num)
+        while len(temp) < n:
+            temp.insert(0, 0)
+        
+        for i in range(n):
+            grid[i][col] = temp[i]
 
-def bomb(center_x,center_y):
-    bomb_range = grid[center_x][center_y]
+def in_range(row, col):
+    if row < 0 or n <= row:
+        return False
+    if col < 0 or n <= col:
+        return False
+    return True
 
-    #폭탄이 터질 위치를 0으로 채운다.
-    for i in range(n):
-        for j in range(n):
-            if in_bomb_range(i,j,center_x,center_y,bomb_range):
-                grid[i][j]=0
+def bomb(row, col):
+    l = grid[row][col]
+    grid[row][col] = 0
+    for d_row, d_col in zip(d_rows, d_cols):
+        t_row = row
+        t_col = col
+        for _ in range(l - 1):
+            n_row = t_row + d_row
+            n_col = t_col + d_col
 
-    #폭탄이 터진 이후의 결과를 temp에 저장 (중력 적용)
-    #열을 기준으로 shift 해준다고 생각한다. 
-    for j in range(n):
-        #각 열별로, 끝 행에서부터 첫 행까지 탐색하기 위한 것.
-        next_row = n-1
-        for i in range(n-1,-1,-1):#3,2,1,0
-            if grid[i][j]!=0:
-                #열 별로 진행하니까 열을 의미하는 j는 고정. 
-                #변하는건 오직 행(next_row)이다. 
-                next_grid[next_row][j] = grid[i][j]
-                next_row-=1
+            if not in_range(n_row, n_col):
+                break
+            
+            grid[n_row][n_col] = 0
+
+            t_row = n_row
+            t_col = n_col
+    drop()
 
 
-for i in range(len(columns)):
-    col = columns[i]
-    col -= 1 #열
-    for j in range(n): #행
-        if grid[j][col]==0:
-            continue
-        else:
-            bomb(j,col)
-            break
+for col in bomb_list:
+    for row in range(n):
+        if grid[row][col]:
+            bomb(row, col);
+            break;
 
-temp = [[0]*n for _ in range(n)]
-for j in range(n):
-    t_row=n-1
-    for i in range(n-1,-1,-1):
-        if grid[i][j] != 0:
-            temp[t_row][j] = grid[i][j]
-            t_row -= 1
 
-for i in range(n):
-    for j in range(n):
-        print(temp[i][j], end=" ")
-    print()
-print()
+for row in range(n):
+    print(" ".join(map(str, grid[row])))
