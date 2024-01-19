@@ -1,111 +1,105 @@
-n,m,k=map(int,input().split())
+N, M, K = map(int, input().split())
+grid = [list(map(int, input().split())) for _ in range(N)]
 
-grid=[
-    list(map(int,input().split()))
-    for _ in range(n)
-]
 
-next_grid=[
-    [0]*n for _ in range(n)
-]
-#grid에서 '열' 기준으로 M개 이상 같은 숫자가 반복되면 폭발
-def repeat_check_and_boom():
-    #각 열별로, 0~n행으로 진행하면서 연속된 값이 있는지 확인한다.
-    flag = False
-    #폭발 완료
-    for j in range(n):
-        boom_range=set()
-        start=0
-        end=0
-        repeat_count=1
+def print_grid():
+    for i in range(N):
+        for j in range(N):
+            print(grid[i][j], end=" ")
+        print()
 
-        for i in range(n-1):
-            if grid[i][j]==grid[i+1][j] and grid[i][j]!=0:
-                end += 1
-                repeat_count += 1
-                if repeat_count >= m:
-                    if (start,end) not in boom_range:
-                        boom_range.add((start,end))
-            else:
-                if repeat_count >= m:
-                    if (start,end) not in boom_range:
-                        boom_range.add((start,end))
-                start = i+1
-                end = start
-                repeat_count=1
-        
-        for booms in boom_range:
-            x,y=booms
-            for k in range(x,y+1):
-                grid[k][j]=0
-        
-        if len(boom_range)!=0:
-            flag = True
-        
-    return flag
-        
+# 폭발
+def explode():
+    explode_count = 0
 
-#폭발 후 90도 회전하는 함수 
+    for col in range(N):
+        count, st = 0, 0
+        ranges_to_explode = []
+
+        for row in range(N):
+            # 끊기는 순간을 판단
+            if grid[row][col] == 0 or (row and grid[row][col] != grid[row - 1][col]):
+                if count >= M:
+                    ranges_to_explode.append((st, row - 1))
+                
+                # 값 초기화
+                count, st = 0, 0
+            
+            # 현재 칸이 정상적인 칸이라면
+            # 개수 갱신
+            if grid[row][col] != 0:
+                count += 1
+                
+                if count == 1:
+                    st = row
+
+        # 마지막 그룹은 따로 처리해주어야 함.
+        # 현재 방식대로라면 열 첫번째 원소가 0일때도 range가 (0, 0)으로 잡힘 -> 예외처리
+        if count >= M:
+            ranges_to_explode.append((st, N - 1))
+
+
+        for start, end in ranges_to_explode:
+            for row in range(start, end+1):
+                explode_count += 1
+                grid[row][col] = 0
+
+    return explode_count
+
+
+# 중력 작용
+def pull_down():
+    for col in range(N):
+        temp = []
+        for row in range(N):
+            if grid[row][col]:
+                temp.append(grid[row][col])
+
+        # 떨어뜨릴게 없다면 해당 열은 패스
+        if len(temp) == N:
+            continue
+
+        buff = [0 for _ in range(N-len(temp))]
+        temp = buff + temp
+
+        for row in range(N):
+            grid[row][col] = temp[row]
+
+# 시계방향으로 배열 회전
 def rotate():
-    for i in range(n):
-        for j in range(n):
-            next_grid[i][j] = 0
-    
-    #90도 회전
-    for i in range(n):
-        for j in range(n):
-            next_grid[i][j] = grid[n-j-1][i]
-    
-    #회전한걸 grid에 대입
-    for i in range(n):
-        for j in range(n):
-            grid[i][j] = next_grid[i][j]
+    global grid
+    next_grid = [[0 for _ in range(N)] for __ in range(N)]
 
-#아래로 숫자를 떨어뜨리는 함수
-def drop():
-    for i in range(n):
-        for j in range(n):
-            next_grid[i][j] = 0
+    for i in range(N):
+        for j in range(N):
+            next_grid[i][j] = grid[N-j-1][i]
 
-    for j in range(n):
-        next_row = n-1
-        for i in range(n-1,-1,-1):
-            if grid[i][j] != 0:
-                next_grid[next_row][j] = grid[i][j]
-                next_row -= 1
-    
-    #회전한걸 grid에 대입
-    for i in range(n):
-        for j in range(n):
-            grid[i][j] = next_grid[i][j]
+    grid = next_grid
 
+def get_count():
+    count = 0
+    for i in range(N):
+        for j in range(N):
+            if grid[i][j]:
+                count += 1
+    return count
 
-complete = False
+def main():
+    for _ in range(K):
+        while True:
+            if explode() == 0:
+                break
+            pull_down()
+        rotate()
+        pull_down()
 
-for _ in range(k):
+    # 회전을 반복한 후에도 터질게 있다면 터져야 함
     while True:
-        go = repeat_check_and_boom()
-
-        if go==False:
+        if explode() == 0:
             break
+        pull_down()
 
-        #터졌으면 아래방향으로 drop 
-        drop()
-    
-    rotate() 
-    drop()
+    print(get_count())
 
-while(repeat_check_and_boom()):
-    drop()
-    
-answer=0
-for i in range(n):
-    for j in range(n):
-        if grid[i][j] != 0:
-            answer += 1
-if n==1 and m==1:
-    print(0)
-elif n==1 and m==2:
-    print(1)
-else:
-    print(answer)
+
+main()
