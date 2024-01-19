@@ -80,29 +80,7 @@ def drop():
             grid[i][j] = next_grid[i][j]
 
 
-complete = False
 
-for _ in range(k):
-    while True:
-        go = repeat_check_and_boom()
-
-        if go==False:
-            break
-
-        #터졌으면 아래방향으로 drop 
-        drop()
-    
-    rotate() 
-    drop()
-
-while(repeat_check_and_boom()):
-    drop()
-    
-answer=0
-for i in range(n):
-    for j in range(n):
-        if grid[i][j] != 0:
-            answer += 1
 if n==1 and m==1:
     print(0)
 elif n==1 and m==2:
@@ -110,4 +88,28 @@ elif n==1 and m==2:
 elif m==1:
     print(0)
 else:
+    complete = False
+
+    for _ in range(k):
+        while True:
+            go = repeat_check_and_boom()
+
+            if go==False:
+                break
+
+            #터졌으면 아래방향으로 drop 
+            drop()
+        
+        rotate() 
+        drop()
+
+    while(repeat_check_and_boom()):
+        drop()
+        
+    answer=0
+    for i in range(n):
+        for j in range(n):
+            if grid[i][j] != 0:
+                answer += 1
+    
     print(answer)
