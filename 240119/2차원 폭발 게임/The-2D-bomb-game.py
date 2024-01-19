@@ -94,7 +94,9 @@ for i in range(n):
     for j in range(n):
         if grid[i][j] != 0:
             answer += 1
-if n==1:
+if n==1 and m==1:
     print(0)
+elif n==1 and m==2:
+    print(1)
 else:
     print(answer)
