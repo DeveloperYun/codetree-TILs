@@ -95,6 +95,9 @@ for _ in range(k):
     rotate() 
     drop()
 
+while(repeat_check_and_boom()):
+    drop()
+    
 answer=0
 for i in range(n):
     for j in range(n):
