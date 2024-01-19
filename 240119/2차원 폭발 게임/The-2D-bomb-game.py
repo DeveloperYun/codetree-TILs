@@ -35,7 +35,6 @@ def check_repeat():
         
         for booms in boom_range:
             x,y=booms
-            print(booms)
             for k in range(x,y+1):
                 grid[k][j]=0
         
