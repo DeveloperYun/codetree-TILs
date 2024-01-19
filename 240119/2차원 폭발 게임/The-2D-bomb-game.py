@@ -9,8 +9,9 @@ next_grid=[
     [0]*n for _ in range(n)
 ]
 #grid에서 '열' 기준으로 M개 이상 같은 숫자가 반복되면 폭발
-def check_repeat():
+def repeat_check_and_boom():
     #각 열별로, 0~n행으로 진행하면서 연속된 값이 있는지 확인한다.
+    flag = False
     #폭발 완료
     for j in range(n):
         boom_range=set()
@@ -19,7 +20,7 @@ def check_repeat():
         repeat_count=1
 
         for i in range(n-1):
-            if grid[i][j]==grid[i+1][j]:
+            if grid[i][j]==grid[i+1][j] and grid[i][j]!=0:
                 end += 1
                 repeat_count += 1
                 if repeat_count >= m:
@@ -37,6 +38,11 @@ def check_repeat():
             x,y=booms
             for k in range(x,y+1):
                 grid[k][j]=0
+        
+        if len(boom_range)!=0:
+            flag = True
+        
+    return flag
         
 
 #폭발 후 90도 회전하는 함수 
@@ -77,16 +83,16 @@ def drop():
 complete = False
 
 for _ in range(k):
-    check_repeat()
+    while True:
+        go = repeat_check_and_boom()
+
+        if go==False:
+            break
+
+        #터졌으면 아래방향으로 drop 
+        drop()
     
-    #complete가 True라면 터졌다는 소리
-    #터졌으면 아래방향으로 drop 
-    drop()
-    check_repeat()
-    #drop시킨 다음에 90도 회전
     rotate() 
-    check_repeat()
-    #회전시킨 다음에는 반복
     drop()
 
 answer=0
