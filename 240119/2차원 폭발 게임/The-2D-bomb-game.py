@@ -13,7 +13,7 @@ def check_repeat():
     #각 열별로, 0~n행으로 진행하면서 연속된 값이 있는지 확인한다.
     #폭발 완료
     for j in range(n):
-        boom_range=[]
+        boom_range=set()
         start=0
         end=0
         repeat_count=1
@@ -24,11 +24,11 @@ def check_repeat():
                 repeat_count += 1
                 if repeat_count >= m:
                     if (start,end) not in boom_range:
-                        boom_range.append((start,end))
+                        boom_range.add((start,end))
             else:
                 if repeat_count >= m:
                     if (start,end) not in boom_range:
-                        boom_range.append((start,end))
+                        boom_range.add((start,end))
                 start = i+1
                 end = start
                 repeat_count=1
