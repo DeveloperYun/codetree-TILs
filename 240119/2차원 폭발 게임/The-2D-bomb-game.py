@@ -82,7 +82,7 @@ for _ in range(k):
     #complete가 True라면 터졌다는 소리
     #터졌으면 아래방향으로 drop 
     drop()
-    
+    check_repeat()
     #drop시킨 다음에 90도 회전
     rotate() 
 
