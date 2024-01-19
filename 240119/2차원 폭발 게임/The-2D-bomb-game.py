@@ -85,7 +85,7 @@ for _ in range(k):
     check_repeat()
     #drop시킨 다음에 90도 회전
     rotate() 
-
+    check_repeat()
     #회전시킨 다음에는 반복
     drop()
 
