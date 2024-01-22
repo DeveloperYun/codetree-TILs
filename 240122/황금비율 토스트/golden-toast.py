@@ -90,7 +90,9 @@ for i in range(m):
     elif cmd=="R":
         it=it.next
     elif cmd=="D":
-        it = l.erase(it)
+        if it != l.end():
+            it = l.erase(it)
+
 
 it=l.begin()
 while it != l.end():
