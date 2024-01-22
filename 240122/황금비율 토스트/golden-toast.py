@@ -86,13 +86,14 @@ for i in range(m):
         l.insert(it,cmd[2])
 
     elif cmd=="L":
-        it=it.prev
+        if it != l.begin():
+            it=it.prev
     elif cmd=="R":
-        it=it.next
+        if it != l.end():
+            it=it.next
     elif cmd=="D":
         if it != l.end():
             it = l.erase(it)
-
 
 it=l.begin()
 while it != l.end():
