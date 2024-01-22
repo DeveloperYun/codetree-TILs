@@ -83,7 +83,7 @@ for i in range(m):
     cmd = input()
     if len(cmd)==3:
         word,and2 = cmd[0],cmd[2]
-        l.insert(it,'s')
+        l.insert(it,cmd[2])
 
     elif cmd=="L":
         it=it.prev
