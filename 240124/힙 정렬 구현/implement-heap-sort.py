@@ -1,5 +1,5 @@
 n=int(input())
-arr=list(map(int,input().split()))
+arr=[0]+list(map(int,input().split()))
 
 def heapify(arr,n,i):
     largest = i
@@ -14,15 +14,15 @@ def heapify(arr,n,i):
 
     if largest != i:
         arr[i],arr[largest] = arr[largest],arr[i]
-        heapify(largest)
+        heapify(arr,n,largest)
 
 def heapsort(arr,n):
-    for i in range(n//2,-1,-1):
+    for i in range(n//2,0,-1):
         heapify(arr,n,i)
     
     for i in range(n,1,-1):
-        arr[0],arr[i] = arr[i],arr[0]
+        arr[1],arr[i] = arr[i],arr[1]
         heapify(arr,i-1,1)
-arr.sort()
-for i in arr:
+heapsort(arr,n)
+for i in arr[1:]:
     print(i,end=" ")
