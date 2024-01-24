@@ -20,7 +20,7 @@ def get_target_row():
         if not all_blank(row + 1, k, k + m - 1):
             return row
 
-    return 0
+    return n-1
 
 k -= 1
 
