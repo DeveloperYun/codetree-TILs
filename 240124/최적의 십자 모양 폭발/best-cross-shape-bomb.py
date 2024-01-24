@@ -29,7 +29,7 @@ def check_double():
     #세로로 스캔하면서 연속되는 쌍 확인 
     for j in range(n):
         for i in range(1,n):
-            if grid[i][j] == grid[i-1][j] and grid[i][j]!=0 and grid[i][j-1] != 0:
+            if grid[i][j] == grid[i-1][j] and grid[i][j]!=0 and grid[i-1][j] != 0:
                 cnt += 1
     return cnt
 
