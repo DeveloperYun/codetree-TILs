@@ -23,6 +23,6 @@ def heapsort(arr,n):
     for i in range(n,1,-1):
         arr[0],arr[i] = arr[i],arr[0]
         heapify(arr,i-1,1)
-arr,sort()
+arr.sort()
 for i in arr:
     print(i,end=" ")
