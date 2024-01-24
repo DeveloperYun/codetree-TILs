@@ -1,3 +1,5 @@
+# 변수 선언 및 입력: 
+
 n, m, k = tuple(map(int, input().split()))
 grid = [
     list(map(int, input().split()))
@@ -7,10 +9,10 @@ grid = [
 # 해당 row에 [col_s, col_e] 열에
 # 전부 블럭이 없는지를 확인합니다.
 def all_blank(row, col_s, col_e):
-    return all([
-        not grid[row][col]
-        for col in range(col_s, col_e + 1)
-    ])
+    for col in range(col_s, col_e + 1):
+        if grid[row][col]:
+            return False
+    return True
 
 
 # 최종적으로 도달하게 될 위치는
@@ -20,7 +22,8 @@ def get_target_row():
         if not all_blank(row + 1, k, k + m - 1):
             return row
 
-    return n-1
+    return n - 1
+        
 
 k -= 1
 
