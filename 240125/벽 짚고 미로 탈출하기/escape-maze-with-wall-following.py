@@ -29,7 +29,7 @@ def solution():
         nx = x + dx[curr_dir]
         ny = y + dy[curr_dir]
 
-        if startx==x and starty==y:
+        if startx==x and starty==y and exit==False:
             answer = -1
             break
         # 바라보고 있는 방향으로 이동하는 것이 가능한 경우
