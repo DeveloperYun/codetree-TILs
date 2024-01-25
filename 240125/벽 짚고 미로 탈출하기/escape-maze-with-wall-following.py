@@ -29,9 +29,7 @@ def solution():
         nx = x + dx[curr_dir]
         ny = y + dy[curr_dir]
 
-        if startx==x and starty==y and exit==False:
-            answer = -1
-            break
+        
         # 바라보고 있는 방향으로 이동하는 것이 가능한 경우
         if in_range(nx,ny) == False: #격자 밖이라면
             answer += 1
@@ -51,5 +49,8 @@ def solution():
                 x,y=x+dx[curr_dir],y+dy[curr_dir] #진행 
                 answer += 2
 
+        if startx==x and starty==y:
+            answer = -1
+            break
 solution()
 print(answer)
