@@ -1,3 +1,3 @@
-n,m=map(int,input().split())
+n,m=map(str,input().split())
 
-print(int(str(n),m))
+print(int(n,int(m)))
