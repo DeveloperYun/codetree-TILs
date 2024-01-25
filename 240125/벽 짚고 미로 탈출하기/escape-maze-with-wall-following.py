@@ -38,7 +38,7 @@ def solution():
             if grid[nx][ny] == '#' :
                 curr_dir = (curr_dir - 1 + 4)%4 #반시계 90도 회전            
             # 만약 그 방향으로 이동했다 가정했을 때 해당 방향을 기준으로 오른쪽에 짚을 벽이 있다면
-            elif grid[nx+1][ny] == "#":
+            elif in_range(nx+1,ny) and grid[nx+1][ny] == "#":
                 x,y=nx,ny
                 answer += 1
             # 만약 그 방향으로 이동했다 가정했을 때 해당 방향을 기준으로 오른쪽에 벽이 존재하지 않는다면,
@@ -46,7 +46,7 @@ def solution():
                 x,y=nx,ny #현재 방향으로 한 칸 이동 후
                 curr_dir = (curr_dir + 1) % 4 #시계방향 90도 회전 
                 x,y=x+dx[curr_dir],y+dy[curr_dir] #진행 
-                answer += 1
+                answer += 2
 
 solution()
 print(answer)
