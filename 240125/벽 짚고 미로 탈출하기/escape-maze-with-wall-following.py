@@ -11,7 +11,7 @@ y-=1
 # 동, 남, 서, 북 순으로 dx, dy를 정의합니다.
 dx = [0, 1, 0, -1]
 dy = [1, 0, -1, 0]
-
+startx,starty=x,y
 
 answer=0
 
@@ -20,7 +20,7 @@ def in_range(x,y):
 
 #바라보는 방향을 어떻게 처리할 지 고민중. 
 def solution():
-    global x,y,answer
+    global x,y,answer,startx,starty
     curr_dir = 0 #시작할 때 동쪽을 바라보고 있으므로.
     exit = False
 
@@ -29,6 +29,9 @@ def solution():
         nx = x + dx[curr_dir]
         ny = y + dy[curr_dir]
 
+        if startx==x and starty==y:
+            answer = -1
+            break
         # 바라보고 있는 방향으로 이동하는 것이 가능한 경우
         if in_range(nx,ny) == False: #격자 밖이라면
             answer += 1
