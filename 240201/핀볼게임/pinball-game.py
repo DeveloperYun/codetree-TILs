@@ -13,9 +13,6 @@ def in_range(x,y):
 dx=[0,0,1,-1]
 dy=[1,-1,0,0]
 
-def turn_dir(direct):
-    pass
-
 #동쪽으로 출발하는 왼쪽 모서리의 경우
 for i in range(n):
     #출발좌표 = (i,0)
@@ -51,7 +48,7 @@ for i in range(n):
       
     answer = max(answer,temp)  
 
-#동쪽으로 출발하는 왼쪽 모서리의 경우
+#서쪽으로 출발하는 왼쪽 모서리의 경우
 for i in range(n):
     #출발좌표 = (0,4),(1,4)
     x = i
@@ -93,7 +90,7 @@ for i in range(n):
     y = i
     
     temp = 1
-    dirction = 2 #처음에 동쪽
+    dirction = 3 #처음에 남쪽
     while in_range(x,y):
         
         if grid[x][y] == 1:
@@ -128,7 +125,7 @@ for i in range(n):
     y = i
     
     temp = 1
-    dirction = 3 #처음에 동쪽
+    dirction = 2 #처음에 동쪽
     while in_range(x,y):
         
         if grid[x][y] == 1:
