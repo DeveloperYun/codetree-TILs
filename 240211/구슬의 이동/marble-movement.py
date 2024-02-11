@@ -57,6 +57,8 @@ def remove_duplicate_marbles():
     #이제 marbles 에서 k개 이상 겹치는 게 있는지 확인하면 된다. 
     temp = []
     for i in range(len(marbles)):
+        if i >= len(marbles):
+            break
         temp.append(marbles[i])
         for j in range(i+1,len(marbles)):
             #같은 좌표라면 
@@ -78,19 +80,14 @@ def remove_duplicate_marbles():
                 if temp[zz] not in dont_remove_info:
                     remove_info.append(temp[zz])
 
-            def remove_tuple(tuple_list, value_to_remove):
-                result_list = []
-                for tpl in tuple_list:
-                    if tpl != value_to_remove:
-                        result_list.append(tpl)
-                return result_list
-            new_ = remove_tuple(marbles, remove_info)
-
-            marbles = new_
-
-
-
-
+            #marbles에서 remove_info를 뺀다.
+            newmarbles=[]
+            for q in range(len(marbles)):
+                if marbles[q] not in remove_info:
+                    newmarbles.append(marbles[q])
+            
+            marbles = newmarbles
+            temp = []
 def simulate():
     #step1
     #구슬을 일단 한 번씩 움직여본다.
@@ -99,7 +96,7 @@ def simulate():
 
     #step2
     #움직임 이후에 겹치는 것을 우선순위에 따라 지워준다.
-    remove_duplicate_marbles() 
+    remove_duplicate_marbles()
 
 #t초가 지난 이후에 살아남은 구슬의 개수를 구해야하므로
 for _ in range(t):
