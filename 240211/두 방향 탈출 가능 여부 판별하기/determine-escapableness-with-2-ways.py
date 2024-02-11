@@ -14,7 +14,7 @@ def can_go(x,y):
     if not in_range(x,y):
         return False
 
-    if visited[x][y]:
+    if visited[x][y] == True:
         return False
 
     if grid[x][y] == 0:
@@ -23,19 +23,20 @@ def can_go(x,y):
     return True
 
 def dfs(x,y):
-    dx = [0,0,-1,1]
-    dy = [-1,1,0,0]
+    dx = [0, 1]
+    dy = [1, 0]
 
-    for i in range(4):
+    for i in range(2):
         nx = x + dx[i]
         ny = y + dy[i]
 
         if can_go(nx,ny):
             visited[nx][ny] = True
-            x = nx
-            y = ny
+            dfs(nx,ny)
 
+visited[0][0]=True
 dfs(0,0)
+
 
 if visited[n-1][m-1]:
     print(1)
