@@ -88,6 +88,8 @@ def remove_duplicate_marbles():
             
             marbles = newmarbles
             temp = []
+        else:
+            temp = []
 def simulate():
     #step1
     #구슬을 일단 한 번씩 움직여본다.
