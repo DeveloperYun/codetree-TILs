@@ -40,9 +40,11 @@ def dfs(x,y):
 
 for i in range(n):
     for j in range(n):
-        cnt = 0
-        dfs(i,j)
-        if cnt>0:
+        if cango(i,j):
+            visited[i][j] = True
+            cnt = 1
+            dfs(i,j)
+    
             peoples.append(cnt)
 
 print(len(peoples))
