@@ -1,20 +1,15 @@
-def generate_pascal_triangle(n):
-    triangle = []
+n=int(input())
 
-    for i in range(n):
-        row = [1] * (i + 1)
-        if i >= 2:
-            for j in range(1, i):
-                row[j] = triangle[i - 1][j - 1] + triangle[i - 1][j]
-        triangle.append(row)
+arr=[
+    [1]*n for _ in range(n)
+]
 
-    return triangle
+for i in range(2,n):
+    for j in range(1,i):
+        arr[i][j] = arr[i-1][j-1]+arr[i-1][j]
 
-def print_pascal_triangle(triangle):
-    for row in triangle:
-        print(" ".join(map(str, row)))
-
-if __name__ == "__main__":
-    n = int(input())
-    pascal_triangle = generate_pascal_triangle(n)
-    print_pascal_triangle(pascal_triangle)
+for i in range(n):
+    
+    for j in range(i+1):
+        print(arr[i][j],end=' ')
+    print()
