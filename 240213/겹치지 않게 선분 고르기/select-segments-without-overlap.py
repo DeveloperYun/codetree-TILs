@@ -1,38 +1,36 @@
 n=int(input())
-arr=[]
-for _ in range(n):
-    a,b=map(int,input().split())
-    arr.append((a,b))
+array=[list(map(int,input().split())) for _ in range(n)]
 
 answer=0
-arr.sort()
-select = []
+select=[]
 
-def check():
-    a = list(set(select))
-    a.sort()
-    temp = len(a)
-    if len(a) > 1:
-        for i in range(len(a)-1):
-            if (a[i+1][0] >= a[i][0] and a[i+1][1] >= a[i][1]) or (a[i][0] >= a[i+1][0] and a[i][1] <= a[i+1][1]):
-                temp -= 1
-            if a[i][1] == a[i+1][0]:
-                temp -= 1
-        return temp 
-    else:
-        return 1
+def is_possible():
+    for idx1,value1 in enumerate(select):
+        for idx2,value2 in enumerate(select):
+            x1,y1=value1
+            x2,y2=value2
+            if idx1<idx2 and (x1<=x2<=y1 or x1<=y2<=y1 or x2<=x1<y2 or x2<=y1<=y2):
+                return False
+    return True
 
+# x1 y1 x2 y2
+# x2 y2 x1 y1
 
-def recur(num):
+def func(cnt,num):
     global answer
-    if num==n:
-        answer = max(answer, check())
-        return 
-    
-    for i in range(n):
-        select.append(arr[i]) 
-        recur(num+1)
+    if cnt>n:
+        return
+    if num>n:
+        return
+    if is_possible():
+        #print("func(",cnt+1,",",num,")")
+        #print(select)
+        answer=max(answer,len(select))
+
+    for i in range(num,n):
+        select.append(array[i])
+        func(cnt+1,i+1)
         select.pop()
 
-recur(0)    
+func(0,0)
 print(answer)
