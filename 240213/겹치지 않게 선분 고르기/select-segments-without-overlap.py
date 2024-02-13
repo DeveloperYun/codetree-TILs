@@ -5,15 +5,18 @@ for _ in range(n):
     arr.append((a,b))
 
 answer=0
-
+arr.sort()
 select = []
 
 def check():
     a = list(set(select))
+    a.sort()
     temp = len(a)
     if len(a) > 1:
         for i in range(len(a)-1):
             if (a[i+1][0] >= a[i][0] and a[i+1][1] >= a[i][1]) or (a[i][0] >= a[i+1][0] and a[i][1] <= a[i+1][1]):
+                temp -= 1
+            if a[i][1] == a[i+1][0]:
                 temp -= 1
         return temp 
     else:
@@ -30,7 +33,6 @@ def recur(num):
         select.append(arr[i]) 
         recur(num+1)
         select.pop()
-        recur(num+1)
 
 recur(0)    
 print(answer)
