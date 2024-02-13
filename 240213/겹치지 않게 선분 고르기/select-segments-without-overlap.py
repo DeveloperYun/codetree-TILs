@@ -5,7 +5,6 @@ for _ in range(n):
     arr.append((a,b))
 
 answer=0
-arr.sort()
 
 select = []
 
@@ -31,7 +30,7 @@ def recur(num):
         select.append(arr[i]) 
         recur(num+1)
         select.pop()
-        
+        recur(num+1)
 
 recur(0)    
 print(answer)
