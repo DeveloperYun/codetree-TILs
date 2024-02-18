@@ -46,5 +46,8 @@ for i in range(1,m+1):
     for t in temp:
         #t = (1,1), (2,2)
         if check(t):
-            print(i)
+            if i==n:
+                print(0)
+            else:
+                print(i)
             sys.exit(0)
