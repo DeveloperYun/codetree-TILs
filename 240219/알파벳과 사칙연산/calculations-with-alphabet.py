@@ -71,7 +71,7 @@ def check(alpha):
 def backtracking(curr_idx):
     global answer
 
-    if curr_idx > alphabet_n: 
+    if curr_idx == alphabet_n: 
         #alphabet과 operand로 새로운 식을 만든다.
         expression = ''
         for k in range(len(operand)):
