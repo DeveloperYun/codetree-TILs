@@ -36,6 +36,38 @@ for i in formula:
     if i<'a' or i>'f':
         operand.append(i)
 
+def check(alpha):
+    #formula = 'f-d-a+c-f*f'
+    #alpha = '4-1-1+4-1*4'
+    #두 개를 비교해서 일치하면 True 반환, 아니면 False
+    formula2 = [] #[f,d,a,c,f,f]
+    for i in formula:
+        if 'a' <= i <= 'f':
+            formula2.append(i)
+    
+    alpha2 = []
+    for i in alpha:
+        if '1'<=i<='4':
+            alpha2.append(i)
+
+    # [f,d,a,c,f,f]
+    # [4,1,1,4,1,4]
+    dic = {}
+    for idx,val in enumerate(formula2):
+        if val not in dic:
+            dic[val] = alpha2[idx]
+    
+    temp=''
+    for idx, val in enumerate(formula2):
+        #val = f d a c f f
+        temp+=dic[val]
+    
+    if temp == ''.join(alpha2):
+        return True
+    else:
+        return False
+
+    
 def backtracking(curr_idx):
     global answer
 
@@ -46,8 +78,10 @@ def backtracking(curr_idx):
             expression+=alphabet[k]
             expression+=operand[k]
         expression+=alphabet[-1]
-        answer = max(answer,calculate(expression))
+        if check(expression):
+            answer = max(answer,calculate(expression))
         return
+    
 
     for i in range(1,5): #1~4
         alphabet.append(str(i))
