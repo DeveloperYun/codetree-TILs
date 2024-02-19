@@ -11,7 +11,7 @@ def print_permutation():
 
 def check(select):
 
-    for i in range(n-3):
+    for i in range(n-2):
         if select[i]==select[i+1] and select[i+1]==select[i+2]:
             return False
     
