@@ -86,7 +86,6 @@ def backtracking(curr_idx):
     for i in range(1,5): #1~4
         alphabet.append(str(i))
         backtracking(curr_idx+1)
-        alphabet.pop()
 
 backtracking(0)
 print(answer)
