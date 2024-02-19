@@ -1,68 +1,93 @@
-# 계산식을 구함
-exp = input()
+formula = input()
+answer=-999999999999
+n = len(formula)
+alphabet_n = n - (n//2) #알파벳의 개수 
 
-# 한 글자씩 쪼개줌
-exp_divide = list(exp)
-
-# 사용하는 알파벳들을 구함
-alphas = list(set(filter(lambda x: x not in ["+" , "-", "*"], exp_divide)))
-
-# 정렬
-alphas.sort()
-
-# 가장큰 결과를 반환하는 함수
-def get_max_result():
-    max_result =  - (2 ** 31)
-
-    # 각 위치에 넣어줄 숫자들을 담고있는 리스트 
-    nums_list = []
-
-    def make_nums(nums = [], l = 0):
-        if l == len(alphas):
-            nums_list.append(nums)
-            return
-
-        for i in range(1, 5):
-            make_nums(nums + [i], l + 1)
-
-    make_nums()
+def calculate(exps):
+    # 3-1*b
+    result = 0
+    numbers=[]
+    ops=[]
+    for i in exps:
+        if '1'<=i<='4':
+            numbers.append(int(i))
+        else:
+            ops.append(i)
     
-    # 결과를 구하는 부분함수
-    def get_result(nums):
-
-        # 나누어준 연산식을 가져옴
-        _exp_divide = exp_divide[:]
-
-        # 받아온 nums를 바탕으로 각 알파벳에 숫자를 대치해줌
-        alpha_dict = {}
-        for alpha, num in zip(alphas, nums):
-            alpha_dict[alpha] = num
+    for op in ops:
+        a1 = numbers.pop(0)
+        a2 = numbers.pop(0)
+        temp = 0
+        if op=='+':
+            temp = a1+a2
+        elif op == '-':
+            temp = a1-a2
+        elif op == '*':
+            temp = a1*a2
         
-        # 각 알파벳들을 숫자로 치환해줌
-        for i, v in enumerate(_exp_divide):
-            if v in alpha_dict:
-                _exp_divide[i] = alpha_dict[v]
+        numbers.insert(0,temp)
+    
+    result = numbers[0]
+    return result
+    
+alphabet=[]
+operand=[]
+for i in formula:
+    if i<'a' or i>'f':
+        operand.append(i)
 
-        # 세자리씩 받아와서 연산하고 결과와 나머지 연산들을 붙여서 다시 넣어줌 요소가 1개만 남을 때 까지 반복
-        while len(_exp_divide) != 1:
-            _result = 0
-            num1, op, num2 = _exp_divide[0:3]
+def check(alpha):
+    #formula = 'f-d-a+c-f*f'
+    #alpha = '4-1-1+4-1*4'
+    #두 개를 비교해서 일치하면 True 반환, 아니면 False
+    formula2 = [] #[f,d,a,c,f,f]
+    for i in formula:
+        if 'a' <= i <= 'f':
+            formula2.append(i)
+    
+    alpha2 = []
+    for i in alpha:
+        if '1'<=i<='4':
+            alpha2.append(i)
 
-            if op == "+":
-                _result = num1 + num2
-            elif op == "-":
-                _result = num1 - num2
-            elif op == "*":
-                _result = num1 * num2
-            
-            _exp_divide = [_result] + _exp_divide[3:]
+    # [f,d,a,c,f,f]
+    # [4,1,1,4,1,4]
+    dic = {}
+    for idx,val in enumerate(formula2):
+        if val not in dic:
+            dic[val] = alpha2[idx]
+    
+    temp=''
+    for idx, val in enumerate(formula2):
+        #val = f d a c f f
+        temp+=dic[val]
+    
+    if temp == ''.join(alpha2):
+        return True
+    else:
+        return False
 
-        return _exp_divide[0]
+    
+def backtracking(curr_idx):
+    global answer
 
-    for nums in nums_list:
-        max_result = max(max_result, get_result(nums))
+    if curr_idx == alphabet_n: 
+        #alphabet과 operand로 새로운 식을 만든다.
+        expression = ''
+        for k in range(len(operand)):
+            expression+=alphabet[k]
+            expression+=operand[k]
+        expression+=alphabet[-1]
+        if check(expression):
+            answer = max(answer,calculate(expression))
+        return
+    
 
+    for i in range(1,5): #1~4
+    
+        alphabet.append(str(i))
+        backtracking(curr_idx+1)
+        alphabet.pop()
 
-    return max_result
-
-print(get_max_result())
+backtracking(0)
+print(answer)
