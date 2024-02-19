@@ -1,5 +1,5 @@
 formula = input()
-answer=-999999999999
+answer=-999999999
 n = len(formula)
 alphabet_n = n - (n//2) #알파벳의 개수 
 
