@@ -1,5 +1,5 @@
 formula = input()
-answer=-999999999
+answer=-999999999999
 n = len(formula)
 alphabet_n = n - (n//2) #알파벳의 개수 
 
@@ -71,15 +71,13 @@ def check(alpha):
 def backtracking(curr_idx):
     global answer
 
-    if curr_idx >= alphabet_n: 
+    if curr_idx > alphabet_n: 
         #alphabet과 operand로 새로운 식을 만든다.
         expression = ''
         for k in range(len(operand)):
             expression+=alphabet[k]
             expression+=operand[k]
         expression+=alphabet[-1]
-        
-
         if check(expression):
             answer = max(answer,calculate(expression))
         return
