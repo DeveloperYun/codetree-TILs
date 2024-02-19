@@ -1,5 +1,5 @@
 formula = input()
-answer=0
+answer=-999999999999
 n = len(formula)
 alphabet_n = n - (n//2) #알파벳의 개수 
 
@@ -78,6 +78,8 @@ def backtracking(curr_idx):
             expression+=alphabet[k]
             expression+=operand[k]
         expression+=alphabet[-1]
+        
+
         if check(expression):
             answer = max(answer,calculate(expression))
         return
