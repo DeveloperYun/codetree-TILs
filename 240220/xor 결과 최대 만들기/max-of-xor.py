@@ -1,30 +1,27 @@
-n,m=map(int,input().split())
-arr=list(map(int,input().split()))
+# 변수 선언 및 입력
+n, m = tuple(map(int, input().split()))
+a = list(map(int, input().split()))
 
-answer = 0
-take=[]
+ans = 0
 
-def compute():
-    answer=0
-    for elem in take:
-        answer ^= elem
+
+def find_max_xor(curr_idx, cnt, curr_val):
+    global ans
     
-    return answer
-
-def xor(cur,cnt):
-    global answer
-
-    # arr에서 m개를 뽑아서 xor 한다.
-    if cur == n:
-        if cnt == m:
-            answer = max(answer, compute())
+    if cnt == m:
+        ans = max(ans, curr_val)
         return
+    
+    if curr_idx == n:
+        return
+    
+    # curr_idx index에 있는 숫자를 선택하지 않은 경우
+    find_max_xor(curr_idx + 1, cnt, curr_val)
+    
+    # curr_idx index에 있는 숫자를 선택한 경우
+    find_max_xor(curr_idx + 1, cnt + 1, curr_val ^ a[curr_idx])
 
-    take.append(arr[cur]) #cur 위치의 값을 선택
-    xor(cur+1, cnt+1)
-    take.pop()
 
-    xor(cur+1,cnt) #선택x 
+find_max_xor(0, 0, 0)
 
-xor(0,0)
-print(answer)
+print(ans)
