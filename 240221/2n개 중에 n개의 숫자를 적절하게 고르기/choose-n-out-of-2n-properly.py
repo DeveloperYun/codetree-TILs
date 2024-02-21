@@ -11,10 +11,15 @@ def search(idx,cnt):
     global answer
     if idx == 2*n:
         if cnt==n:
+            temp = arr[:]
             s2 = [] #arr - select 
-            for x in arr:
-                if x not in select:
-                    s2.append(x)
+            for i in range(n):
+                for j in range(2*n):
+                    if select[i] == temp[j]:
+                        temp[j]=0
+            for i in temp:
+                if i==0:
+                    temp.remove(i)
             answer = min(answer,calc(select,s2))
         return
     
