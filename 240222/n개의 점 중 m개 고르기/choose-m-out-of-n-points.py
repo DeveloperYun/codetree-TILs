@@ -16,12 +16,12 @@ def dist(p1,p2):
 
     return (x1-x2)**2 + (y1-y2)**2
 
-def calc(select):
-    temp = 999999
-
+def calc(select): #가장 거리가 '먼' 두 점.
+    temp = 0
+    
     for i in range(m-1):
         for j in range(i+1,m):
-            temp = min(temp, dist(select[i],select[j]))
+            temp = max(temp, dist(select[i],select[j]))
     return temp
 
 
