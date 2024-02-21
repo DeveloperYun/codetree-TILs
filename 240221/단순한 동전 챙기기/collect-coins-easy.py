@@ -51,4 +51,7 @@ for i in range(coin_count):
 
             answer = min(answer,move)
 
-print(answer)
+if answer == 2000:
+    print(-1)
+else:
+    print(answer)
