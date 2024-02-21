@@ -1,57 +1,80 @@
-n=int(input())
-answer = 2000
+import sys
 
-grid=[
-    list(map(str,input().rstrip()))
+COIN_NUM = 9
+INT_MAX = sys.maxsize
+
+# 변수 선언 및 입력:
+n = int(input())
+m = 3
+
+grid = [
+    input()
     for _ in range(n)
 ]
 
-# s에서 출발해서 최소 3개의 동전을 수집해서 E로 도착.
-# 동전은 번호 증가 순서대로 수집
-# 같은 위치 방문 가능 
-# 최소 이동 횟수를 구하라.
+coin_pos = list()
+selected_pos = list()
 
-start_x, start_y = 0, 0
-end_x, end_y = 0, 0
-coins=[] #값
-coins_coord = {} #{동전번호 : (x,y)}
-for x in range(n):
-    for y in range(n):
-        if grid[x][y] == 'S':
-            start_x,start_y = x,y
-        if grid[x][y] == 'E':
-            end_x,end_y = x,y
-        if '1' <=grid[x][y] <='9':
-            num = int(grid[x][y])
-            coins.append(num)
-            coins_coord[num] = (x,y)
+start_pos = (-1, -1)
+end_pos = (-1, -1)
 
-coins.sort() #번호 순서대로 뽑아야하므로 정렬
-coin_count = len(coins)
+ans = INT_MAX
 
-def dist(a,b):
-    x1, y1 = a
-    x2, y2 = b
 
-    return abs(x1-x2) + abs(y1-y2)
+def dist(a, b):
+    (ax, ay), (bx, by) = a, b
+    return abs(ax - bx) + abs(ay - by)
 
-for i in range(coin_count):
-    for j in range(i+1,coin_count):
-        for k in range(j+1,coin_count):
-            move = 0
 
-            #세 점의 좌표 
-            p1 = coins_coord[coins[i]]
-            p2 = coins_coord[coins[j]]
-            p3 = coins_coord[coins[k]]
-            coords = [(start_x,start_y),p1,p2,p3,(end_x,end_y)]
+def calc():
+    num_moves = dist(start_pos, selected_pos[0])
+    for i in range(m - 1):
+        num_moves += dist(selected_pos[i], selected_pos[i + 1])
+    num_moves += dist(selected_pos[m - 1], end_pos)
+    
+    return num_moves
 
-            for idx in range(4):
-                move += dist(coords[idx],coords[idx+1])
 
-            answer = min(answer,move)
+def find_min_moves(curr_idx, cnt):
+    global ans
+    
+    if cnt == m:
+        # 선택된 모든 조합에 대해 이동 횟수를 계산합니다.
+        ans = min(ans, calc())
+        return
+    
+    if curr_idx == len(coin_pos):
+        return
+    
+    
+    
+    # curr_idx index 에 있는 동전을 선택한 경우
+    selected_pos.append(coin_pos[curr_idx])
+    find_min_moves(curr_idx + 1, cnt + 1)
+    selected_pos.pop()
 
-if answer == 2000:
-    print(-1)
-else:
-    print(answer)
+    # curr_idx index 에 있는 동전을 선택하지 않은 경우
+    find_min_moves(curr_idx + 1, cnt)
+
+    
+for i in range(n):
+    for j in range(n):
+        if grid[i][j] == 'S':
+            start_pos = (i, j)
+        if grid[i][j] == 'E':
+            end_pos = (i, j)
+
+# 동전을 오름차순으로 각 위치를 집어넣습니다.
+# 이후에 증가하는 순서대로 방문하기 위함입니다.
+for num in range(1, COIN_NUM + 1):
+    for i in range(n):
+        for j in range(n):
+            if grid[i][j] == str(num):
+                coin_pos.append((i, j))
+                
+find_min_moves(0, 0)
+
+if ans == INT_MAX:
+    ans = -1
+
+print(ans)
