@@ -63,6 +63,7 @@ def bfs():
             ny = y + dy[i]
 
             if can_go(nx,ny,x,y):
+                q.append((nx,ny))
                 visited[nx][ny] = True
 
             
