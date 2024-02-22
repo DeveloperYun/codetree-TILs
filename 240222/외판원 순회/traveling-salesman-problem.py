@@ -1,31 +1,32 @@
-n=int(input())
-grid=[
-    list(map(int,input().split()))
-    for _ in range(n)
-]
+n = int(input())
 
-visited=[False]*n
-answer=99999999
-temp = []
+INF = int(1e9)
+dp = [[INF] * (1 << n) for _ in range(n)]
 
-def choose(curr):
-    global answer
 
-    if curr == n:
-        answer = min(answer,sum(temp))
-        return 
+def dfs(x, visited):
+    if visited == (1 << n) - 1:     # 모든 도시를 방문했다면
+        if graph[x][0]:             # 출발점으로 가는 경로가 있을 때
+            return graph[x][0]
+        else:                       # 출발점으로 가는 경로가 없을 때
+            return INF
 
-    
-    for col in range(n):
-        if visited[col] or grid[curr][col]==0:
+    if dp[x][visited] != INF:       # 이미 최소비용이 계산되어 있다면
+        return dp[x][visited]
+
+    for i in range(1, n):           # 모든 도시를 탐방
+        if not graph[x][i]:         # 가는 경로가 없다면 skip
             continue
-        
-        visited[col] = True
+        if visited & (1 << i):      # 이미 방문한 도시라면 skip
+            continue
 
-        temp.append(grid[curr][col])
-        choose(curr+1)
-        temp.pop()
-        visited[col] = False
+        # 점화식 부분(위 설명 참고)
+        dp[x][visited] = min(dp[x][visited], dfs(i, visited | (1 << i)) + graph[x][i])
+    return dp[x][visited]
 
-choose(0)
-print(answer)
+
+graph = []
+for i in range(n):
+    graph.append(list(map(int, input().split())))
+
+print(dfs(0, 1))
