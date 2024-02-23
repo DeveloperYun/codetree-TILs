@@ -78,7 +78,7 @@ for i in range(n):
                         temp = min(temp, step[x][y])
             
         
-            if temp == 0:
+            if temp == 0 or temp = 9999999999:
                 answer[i][j]=-1
             else:   
                 answer[i][j] = temp
