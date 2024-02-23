@@ -1,4 +1,5 @@
 from collections import deque
+import sys
 
 n,h,m = map(int,input().split())
 grid = [
@@ -71,14 +72,14 @@ for i in range(n):
         if grid[i][j] == 2:#사람의 현재 위치 
             push(i,j,0)
             bfs()
-            temp = 9999999999
+            temp = sys.maxsize
             for x in range(n):
                 for y in range(n):
                     if grid[x][y]==3 and visited[x][y]:
                         temp = min(temp, step[x][y])
             
         
-            if temp == 0 or temp == 9999999999:
+            if temp == 0 or temp == sys.maxsize:
                 answer[i][j]=-1
             else:   
                 answer[i][j] = temp
