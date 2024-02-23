@@ -74,9 +74,10 @@ for i in range(n):
             temp = 9999999999
             for x in range(n):
                 for y in range(n):
-                    if grid[x][y]==3:
+                    if grid[x][y]==3 and visited[x][y]:
                         temp = min(temp, step[x][y])
             
+        
             if temp == 0:
                 answer[i][j]=-1
             else:   
