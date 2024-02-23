@@ -66,23 +66,24 @@ answer=[
 ]
 
 #시작지점이 h 개
+
 for i in range(n):
     for j in range(n):
         clear_visit_step()
         if grid[i][j] == 2:#사람의 현재 위치 
             push(i,j,0)
-            bfs()
-            temp = sys.maxsize
-            for x in range(n):
-                for y in range(n):
-                    if grid[x][y]==3 and visited[x][y]:
-                        temp = min(temp, step[x][y])
-            
+        bfs()
+        temp = sys.maxsize
+        for x in range(n):
+            for y in range(n):
+                if grid[x][y]==3 and visited[x][y]:
+                    temp = min(temp, step[x][y])
         
-            if temp == 0 or temp == sys.maxsize:
-                answer[i][j]=-1
-            else:   
-                answer[i][j] = temp
+    
+        if temp == 0 or temp == sys.maxsize:
+            answer[i][j]=-1
+        else:   
+            answer[i][j] = temp
 
 for i in range(n):
     for j in range(n):
