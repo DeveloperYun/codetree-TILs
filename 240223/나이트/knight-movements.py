@@ -41,7 +41,7 @@ def bfs():
 push(r1,c1,0)
 bfs()
 
-if step[r2][c2] == 99999:
+if visited[r2][c2]==False:
     print(-1)
 else:
     print(step[r2][c2])
