@@ -3,8 +3,10 @@ arr=list(map(int,input().split()))
 
 ans=0
 for i in range(n):
-    ans += arr[i]
-    
-    if ans < arr[i]:
+
+    if ans < 0:
         ans = arr[i]
+    else:
+        ans += arr[i]
+
 print(ans)
