@@ -32,5 +32,4 @@ else:
     x=temp/last_w
     answer += (last_v*x)
     answer = round(answer,3)
-    print(answer)
     print(format(answer, ".3f"))
