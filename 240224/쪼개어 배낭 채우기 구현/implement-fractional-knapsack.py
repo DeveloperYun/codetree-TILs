@@ -27,5 +27,5 @@ for jew in jewelry:
 temp = m-full_w #8-4=4
 x=temp/last_w
 answer += (last_v*x)
-
+answer = round(answer,3)
 print(format(answer, ".3f"))
