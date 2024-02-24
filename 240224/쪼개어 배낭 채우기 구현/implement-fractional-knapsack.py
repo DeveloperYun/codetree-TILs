@@ -1,35 +1,18 @@
-n,m=map(int,input().split())
-jewelry=[]
-for _ in range(n):
-    w,v=map(int,input().split()) #무게, 가치
-    std = round(v/w,3)
-    jewelry.append((w,v,std))
+n, m = map(int, input().split())
+arr = [list(map(int, input().split())) for i in range(n)]
+for i in range(n):
+    arr[i].append(arr[i][1]/arr[i][0])
+arr.sort(key=lambda x:-x[2])
+i = 0
+a = 0
+while m > 0 and i < n:
+    if m >= arr[i][0]:
+        m -= arr[i][0]
+        a += arr[i][1]
+        i += 1
+    else:
+        a += arr[i][2]*m
+        m = 0
+        i += 1
 
-jewelry.sort(lambda x:x[2], reverse=True)
-
-answer=0
-full_w=0
-last_w=0
-last_v=0
-for jew in jewelry:
-    weight, value, std = jew
-
-    full_w += weight
-    answer += value
-
-    if full_w > m:
-        last_w = weight
-        last_v = value
-        full_w -= weight
-        answer -= value
-        break
-
-
-if n==1:
-    print(format(answer, ".3f"))
-else:
-    temp = m-full_w #8-4=4
-    x=temp/last_w
-    answer += (last_v*x)
-    answer = round(answer,3)
-    print(format(answer, ".3f"))
+print("{:.3f}".format(a))
