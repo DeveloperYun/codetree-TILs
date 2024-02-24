@@ -2,7 +2,7 @@ n,m=map(int,input().split())
 jewelry=[]
 for _ in range(n):
     w,v=map(int,input().split()) #무게, 가치
-    std = v/w,3
+    std = v/w
     jewelry.append((w,v,std))
 
 jewelry.sort(lambda x:x[2], reverse=True)
