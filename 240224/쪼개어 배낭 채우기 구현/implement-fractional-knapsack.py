@@ -24,8 +24,13 @@ for jew in jewelry:
         answer -= value
         break
 
-temp = m-full_w #8-4=4
-x=temp/last_w
-answer += (last_v*x)
-answer = round(answer,3)
-print(format(answer, ".3f"))
+
+if n==1:
+    print(format(answer, ".3f"))
+else:
+    temp = m-full_w #8-4=4
+    x=temp/last_w
+    answer += (last_v*x)
+    answer = round(answer,3)
+    print(answer)
+    print(format(answer, ".3f"))
