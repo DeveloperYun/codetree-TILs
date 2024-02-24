@@ -29,7 +29,10 @@ if n==1:
     print(format(answer, ".3f"))
 else:
     temp = m-full_w #8-4=4
-    x=temp/last_w
+    if last_w==0:
+        x=temp
+    else:
+        x=temp/last_w
     answer += (last_v*x)
     answer = round(answer,3)
     print(format(answer, ".3f"))
