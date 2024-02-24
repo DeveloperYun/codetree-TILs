@@ -85,4 +85,7 @@ for t in trans:
     if visited[r2][c2]:
         answer = min(answer,step[r2][c2])
 
-print(answer)
+if answer == 9999999999:
+    print(-1)
+else:
+    print(answer)
