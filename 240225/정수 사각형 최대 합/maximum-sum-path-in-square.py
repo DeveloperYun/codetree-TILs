@@ -17,7 +17,7 @@ def initial():
     
     #대각선 초기화
     for i in range(1,n):
-        dp[i][i] = dp[i-1][i-1] + grid[i][i]
+        dp[0][i] = dp[i-1][i-1] + grid[i][i]
 
 initial()
 
