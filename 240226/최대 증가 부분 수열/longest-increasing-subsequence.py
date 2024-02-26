@@ -1,22 +1,16 @@
 import sys
-INTMIN = -sys.maxsize
 
-n=int(input())
-num=list(map(int,input().split()))
-dp=[0]*n
 
-for i in range(1,n):
-    dp[i] = INTMIN
+num = int(input())
 
-for i in range(1,n):
+a = [0] + list(map(int, input().split()))
+
+dp = [0 for _ in range(num + 1)]
+
+
+dp[1] = 1
+for i in range(1, num+1):
     for j in range(i):
-        if dp[j] == INTMIN:
-            continue
-        
-        if j+num[j] >= i:
-            dp[i] = max(dp[i], dp[j]+1)
-
-answer=0
-for i in range(n):
-    answer = max(answer, dp[i])
-print(answer)
+        if(a[j] < a[i]):
+            dp[i] = max(dp[i], dp[j]+1) #이부분이 이해가 가질 않습니다.
+print(max(dp))
