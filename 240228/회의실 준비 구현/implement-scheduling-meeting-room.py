@@ -11,7 +11,7 @@ for i in range(n-1):
     before_start,before_end = arr[i]
     after_start,after_end = arr[i+1]
 
-    if before_end <= after_start:
+    if before_end < after_start:
         answer += 1
         
 print(answer)
