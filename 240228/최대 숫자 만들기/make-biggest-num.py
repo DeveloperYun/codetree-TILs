@@ -3,23 +3,28 @@ from functools import cmp_to_key
 n=int(input())
 arr=[]
 for _ in range(n):
-    x=int(input())
+    x=str(input())
     arr.append(x)
 
-arr.sort(reverse=True)
-answer=''
-answer += str(arr[0]) #53
-arr.pop(0)
+#첫째 자리, 둘째자리, 셋째 자리...순으로 reverse 정렬해야한다
+#만약 없는 경우에는 없는게 우선순위다(ex. 8 > 83)
 
-while arr:
-    x1 = arr.pop(0)
+def compare(x, y):
+    # 비교 함수
+    if len(x)==len(y):
+        if int(y)>int(x):
+            return 1
     
-    t1 = answer + str(x1)
-    t2 = str(x1) + answer
+    if len(x) != len(y) and y[0] == x[0]:
+        return 1
 
-    if t1>t2:
-        answer = t1
-    else:
-        answer = t2
+    if x > y:
+        return -1
+    
+    if y > x:
+        return 1
 
-print(answer)
+    return 0
+
+arr.sort(key=cmp_to_key(compare))
+print(''.join(arr))
