@@ -13,9 +13,9 @@ for i in card:
 answer=0 #A가 이기는 횟수 
 
 card_a.sort()
-card_b.sort()
+card_b.sort() 
 
 for i in range(n):
-    if card_b[i] > card_a[i]:
+    if card_b[i] < card_a[i]:
         answer += 1
 print(answer)
