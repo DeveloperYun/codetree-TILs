@@ -6,6 +6,7 @@ for _ in range(n):
     x=int(input())
     arr.append(x)
 
+arr.sort(reverse=True)
 answer=''
 answer += str(arr[0]) #53
 arr.pop(0)
