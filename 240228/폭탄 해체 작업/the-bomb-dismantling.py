@@ -1,33 +1,22 @@
-n=int(input())
-bombs=[]
-maxtime = 0
+from heapq import heappush, heappop
 
-for _ in range(n):
-    score, time = map(int,input().split())
-    maxtime = max(maxtime,time)
-    bombs.append([score,time])
+t = int(input())
+bombs = [list(map(int, input().split())) for _ in range(t)]
+bombs.sort(key= lambda x: (x[1], x[0]))
+MAX_TIME = bombs[-1][-1]
 
-bombs.sort(key=lambda x:x[1])
+bomb_list = [[] for _ in range(MAX_TIME + 1)]
+for score, limit in bombs:
+    bomb_list[limit].append(score)
 
-
-answer=0
-for i in range(1,maxtime+1):
-    for j in range(len(bombs)):
-        sc,ti = bombs[j]
-        ti -= 1
-        bombs[j] = [sc,ti]
+heap = []
+cnt = 0
+for time in range(MAX_TIME, 0, -1):
+    for score in bomb_list[time]:
+        heappush(heap, -score)
+    if len(heap) == 0:
+        continue
+    q = -heappop(heap)
+    cnt += q
     
-    temp=[]
-    for j in range(len(bombs)):
-        sc,ti = bombs[j]
-
-        if ti == 0:
-            temp.append(sc)
-            bombs[j] = [-1,-1]
-    
-    if temp:
-        get = max(temp)
-        answer += get
-        bombs = [item for item in bombs if item != [-1,-1]]
-
-print(answer)
+print(cnt)
