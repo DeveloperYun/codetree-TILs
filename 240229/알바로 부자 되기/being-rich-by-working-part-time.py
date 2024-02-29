@@ -19,6 +19,6 @@ for i in range(1, n): #i번째 알바
             dp[i] = max(alba[i][2], dp[i])
 
         else:
-            dp[i] = dp[j] + alba[i][2]
+            dp[i] = max(dp[i],dp[j] + alba[i][2])
 
 print(max(dp))
