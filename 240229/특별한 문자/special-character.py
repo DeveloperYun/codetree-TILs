@@ -12,9 +12,9 @@ for i in x:
 ans=''
 for key, val in dic.items():
     if val == 1:
-        ans = val
+        ans = key
         break
 if ans=='':
     print("None")
 else:
-    print(dic[ans])
+    print(ans)
