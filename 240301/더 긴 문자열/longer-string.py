@@ -1,4 +1,4 @@
-a,b=map(int,input().split())
+a,b=map(str,input().split())
 if len(a)>len(b):
     print(a,len(a))
 elif len(b)>len(a):
