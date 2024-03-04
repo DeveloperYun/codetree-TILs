@@ -5,13 +5,13 @@ arr=list(map(int,input().split()))
 '''
 dp[i] = i번째 숫자를 그룹에 포함했을 때. 
 '''
-arr.sort()
-answer=0
+arr.sort() # 4,5,7,8,9
+answer=99999999
 
 for i in range(n-1):
     temp1 = sum(arr[:i+1])
     temp2 = sum(arr[i+1:])
-    
+    print(temp1,temp2)
     answer = min(answer, abs(temp1-temp2))
 
 print(answer)
