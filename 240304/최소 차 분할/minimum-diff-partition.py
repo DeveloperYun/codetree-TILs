@@ -11,7 +11,7 @@ answer=99999999
 for i in range(n-1):
     temp1 = sum(arr[:i+1])
     temp2 = sum(arr[i+1:])
-    print(temp1,temp2)
+
     answer = min(answer, abs(temp1-temp2))
 
 print(answer)
