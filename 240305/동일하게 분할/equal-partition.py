@@ -47,7 +47,7 @@ for i in range(1, n + 1):
     # i - 1번째까지 고려하여 고른 수들의 합이 j였어야만 합니다. 
     for j in range(m + 1):
         # Case 1
-        if j == arr[i] and dp[i - 1][j - arr[i]]:
+        if j >= arr[i] and dp[i - 1][j - arr[i]]:
             dp[i][j] = True
         
         # Case 2
