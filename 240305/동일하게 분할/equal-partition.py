@@ -58,12 +58,11 @@ for i in range(1, n + 1):
 # 그룹 A에 대해 정확히 합 i를 만들 수 있다면,
 # i / m - i 이렇게 두 그룹으로 나눌 수 있다는 뜻이기에
 # 차이의 최솟값을 갱신합니다.
-ans = INT_MAX
+ans = "No"
 for i in range(1, m):
     if dp[n][i]:
-        ans = True
+        if i==m-i:
+            ans="Yes"
+            break
 
-if ans:
-    print("Yes")
-else:
-    print("No")
+print(ans)
