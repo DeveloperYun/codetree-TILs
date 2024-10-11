@@ -1,60 +1,72 @@
 from collections import deque
 
 def process_lines(N, M, Q, names, commands):
-    # 각 줄을 deque로 관리하여 효율적인 삽입/삭제 처리
+    # 각 줄을 deque로 관리
     lines = [deque() for _ in range(M)]
-    people_to_line = {}  # 사람의 이름을 줄 번호로 매핑
+    people_pos = {}  # 사람의 위치를 저장하는 딕셔너리 (줄 번호, 인덱스)
     
     # 초기 줄 배치
     X = N // M
     for i, name in enumerate(names):
         line_num = i // X
         lines[line_num].append(name)
-        people_to_line[name] = line_num
+        people_pos[name] = (line_num, len(lines[line_num]) - 1)
     
     # 명령 처리
     for command in commands:
         parts = command.split()
         if parts[0] == '1':  # 1 a b : a가 b 앞으로 새치기
             a, b = parts[1], parts[2]
-            # a와 b의 현재 위치 찾기
-            a_line = people_to_line[a]
-            b_line = people_to_line[b]
+            a_line, _ = people_pos[a]
+            b_line, b_idx = people_pos[b]
             
-            if a_line == b_line:  # 같은 줄에 있으면 a를 먼저 제거 후, b 앞으로 삽입
-                lines[a_line].remove(a)
-                idx_b = lines[b_line].index(b)
-                lines[b_line].insert(idx_b, a)
-            else:
-                lines[a_line].remove(a)
-                idx_b = lines[b_line].index(b)
-                lines[b_line].insert(idx_b, a)
-                people_to_line[a] = b_line
+            # a가 있는 줄에서 제거
+            lines[a_line].remove(a)
+            
+            # b가 있는 줄에서 a를 삽입
+            lines[b_line].insert(b_idx, a)
+            
+            # 위치 정보 업데이트
+            people_pos[a] = (b_line, b_idx)
+            # b 이후 사람들의 인덱스도 업데이트
+            for i in range(b_idx + 1, len(lines[b_line])):
+                person = lines[b_line][i]
+                people_pos[person] = (b_line, i)
         
         elif parts[0] == '2':  # 2 a : a가 집에 감
             a = parts[1]
-            a_line = people_to_line[a]
+            a_line, a_idx = people_pos[a]
+            # 줄에서 제거
             lines[a_line].remove(a)
-            del people_to_line[a]
+            del people_pos[a]
+            # 제거 이후 사람들의 인덱스 업데이트
+            for i in range(a_idx, len(lines[a_line])):
+                person = lines[a_line][i]
+                people_pos[person] = (a_line, i)
         
-        elif parts[0] == '3':  # 3 a b c : a부터 b까지 통째로 c 앞에 새치기
+        elif parts[0] == '3':  # 3 a b c : a부터 b까지 통째로 c 앞으로 새치기
             a, b, c = parts[1], parts[2], parts[3]
-            a_line = people_to_line[a]
-            c_line = people_to_line[c]
+            a_line, a_idx = people_pos[a]
+            b_line, b_idx = people_pos[b]
+            c_line, c_idx = people_pos[c]
             
-            idx_a = lines[a_line].index(a)
-            idx_b = lines[a_line].index(b)
-            group = [lines[a_line][i] for i in range(idx_a, idx_b + 1)]
+            # a부터 b까지의 그룹 추출
+            group = [lines[a_line][i] for i in range(a_idx, b_idx + 1)]
             
-            # a~b까지를 원래 줄에서 제거
+            # a부터 b까지 제거
             for person in group:
                 lines[a_line].remove(person)
-                people_to_line[person] = c_line
+                del people_pos[person]
             
-            # c 앞에 삽입
-            idx_c = lines[c_line].index(c)
-            for person in reversed(group):  # 그룹을 역순으로 삽입
-                lines[c_line].insert(idx_c, person)
+            # c 앞으로 삽입
+            for i, person in enumerate(group):
+                lines[c_line].insert(c_idx + i, person)
+                people_pos[person] = (c_line, c_idx + i)
+            
+            # c 이후 사람들의 인덱스 업데이트
+            for i in range(c_idx + len(group), len(lines[c_line])):
+                person = lines[c_line][i]
+                people_pos[person] = (c_line, i)
     
     # 최종 결과 출력
     result = []
