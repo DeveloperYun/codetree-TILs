@@ -1,64 +1,77 @@
 from collections import deque
 
+def process_lines(N, M, Q, names, commands):
+    # 각 줄을 deque로 관리하여 효율적인 삽입/삭제 처리
+    lines = [deque() for _ in range(M)]
+    people_to_line = {}  # 사람의 이름을 줄 번호로 매핑
+    
+    # 초기 줄 배치
+    X = N // M
+    for i, name in enumerate(names):
+        line_num = i // X
+        lines[line_num].append(name)
+        people_to_line[name] = line_num
+    
+    # 명령 처리
+    for command in commands:
+        parts = command.split()
+        if parts[0] == '1':  # 1 a b : a가 b 앞으로 새치기
+            a, b = parts[1], parts[2]
+            # a와 b의 현재 위치 찾기
+            a_line = people_to_line[a]
+            b_line = people_to_line[b]
+            
+            if a_line == b_line:  # 같은 줄에 있으면 a를 먼저 제거 후, b 앞으로 삽입
+                lines[a_line].remove(a)
+                idx_b = lines[b_line].index(b)
+                lines[b_line].insert(idx_b, a)
+            else:
+                lines[a_line].remove(a)
+                idx_b = lines[b_line].index(b)
+                lines[b_line].insert(idx_b, a)
+                people_to_line[a] = b_line
+        
+        elif parts[0] == '2':  # 2 a : a가 집에 감
+            a = parts[1]
+            a_line = people_to_line[a]
+            lines[a_line].remove(a)
+            del people_to_line[a]
+        
+        elif parts[0] == '3':  # 3 a b c : a부터 b까지 통째로 c 앞에 새치기
+            a, b, c = parts[1], parts[2], parts[3]
+            a_line = people_to_line[a]
+            c_line = people_to_line[c]
+            
+            idx_a = lines[a_line].index(a)
+            idx_b = lines[a_line].index(b)
+            group = [lines[a_line][i] for i in range(idx_a, idx_b + 1)]
+            
+            # a~b까지를 원래 줄에서 제거
+            for person in group:
+                lines[a_line].remove(person)
+                people_to_line[person] = c_line
+            
+            # c 앞에 삽입
+            idx_c = lines[c_line].index(c)
+            for person in reversed(group):  # 그룹을 역순으로 삽입
+                lines[c_line].insert(idx_c, person)
+    
+    # 최종 결과 출력
+    result = []
+    for line in lines:
+        if line:
+            result.append(' '.join(line))
+        else:
+            result.append("-1")
+    
+    return result
+
 # 입력 처리
 N, M, Q = map(int, input().split())
-people = input().split()
+names = input().split()
+commands = [input() for _ in range(Q)]
 
-# M개의 줄을 만듦 (각 줄은 deque로 처리)
-lines = [deque() for _ in range(M)]
-
-# 각 사람을 해당 줄에 배치
-for i, person in enumerate(people):
-    line_idx = i % M
-    lines[line_idx].append(person)
-
-# 사람의 이름을 인덱스 찾기 쉽게 딕셔너리로 만듦
-position = {person: i % M for i, person in enumerate(people)}
-
-# 명령 처리
-for _ in range(Q):
-    command = input().split()
-    
-    if command[0] == '1':
-        # 1 a b : a가 b 앞에 새치기
-        a, b = command[1], command[2]
-        line_idx = position[a]
-        lines[line_idx].remove(a)  # a를 원래 위치에서 제거
-        idx_b = lines[line_idx].index(b)  # b의 위치를 찾음
-        lines[line_idx].insert(idx_b, a)  # b 앞에 a 삽입
-    
-    elif command[0] == '2':
-        # 2 a : a가 집으로 감
-        a = command[1]
-        line_idx = position[a]
-        lines[line_idx].remove(a)  # a를 줄에서 제거
-    
-    elif command[0] == '3':
-        # 3 a b c : a부터 b까지 사람들을 떼어내어 c 앞으로 이동
-        a, b, c = command[1], command[2], command[3]
-        line_a_b = position[a]  # a와 b가 서 있는 줄
-        line_c = position[c]    # c가 서 있는 줄
-        
-        # a부터 b까지의 사람들을 찾음
-        idx_a = lines[line_a_b].index(a)
-        idx_b = lines[line_a_b].index(b)
-        group = deque()  # 떼어낼 그룹을 저장할 덱
-        
-        for i in range(idx_a, idx_b + 1):
-            group.append(lines[line_a_b][i])
-        
-        # 원래 줄에서 a부터 b까지 제거
-        for i in range(idx_b, idx_a - 1, -1):
-            lines[line_a_b].remove(lines[line_a_b][i])
-        
-        # c 앞에 그룹을 삽입
-        idx_c = lines[line_c].index(c)
-        for person in reversed(group):
-            lines[line_c].insert(idx_c, person)
-
-# 결과 출력
-for line in lines:
-    if line:
-        print(' '.join(line))
-    else:
-        print(-1)
+# 줄 상태 처리 및 결과 출력
+result = process_lines(N, M, Q, names, commands)
+for line in result:
+    print(line)
